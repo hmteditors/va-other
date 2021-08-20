@@ -280,6 +280,9 @@ text-align: center;
 </style>
 """
 
+# ╔═╡ d017833c-3ff4-45ad-a7cc-97bd84cef692
+md"> Debug"
+
 # ╔═╡ ec0f3c61-cf3b-4e4c-8419-176626a0888c
 md"> Repository and image services"
 
@@ -338,6 +341,12 @@ end
 
 # ╔═╡ 3b04a423-6d0e-4221-8540-ad457d0bb65e
 orthography()
+
+# ╔═╡ c419ef55-2a93-46af-92ea-3b8692944f8d
+citation_df(editorsrepo())
+
+# ╔═╡ eb0f9c57-859e-4cc6-91be-0fac5f428b66
+xsurf1 =  EditorsRepo.surfaceDse(editorsrepo(), Cite2Urn(surface))[1,:]
 
 # ╔═╡ 080b744e-8f14-406d-bdd2-fbcd3c1ec753
 # Base URL for an ImageCitationTool
@@ -440,6 +449,9 @@ begin
 
 end
 
+# ╔═╡ 19cf528f-ce61-4423-9474-162f415f18c0
+
+
 # ╔═╡ Cell order:
 # ╟─766e600d-200c-4421-9a21-a8fa0aa6a4a7
 # ╟─8cd70daf-566d-423d-931c-e5021ad2778a
@@ -465,7 +477,11 @@ end
 # ╟─3cb683e2-5350-4262-b693-0cddee340254
 # ╟─1814e3b1-8711-4afd-9987-a41d85fd56d9
 # ╟─3dd9b96b-8bca-4d5d-98dc-a54e00c75030
+# ╟─d017833c-3ff4-45ad-a7cc-97bd84cef692
+# ╠═c419ef55-2a93-46af-92ea-3b8692944f8d
+# ╠═eb0f9c57-859e-4cc6-91be-0fac5f428b66
 # ╟─ec0f3c61-cf3b-4e4c-8419-176626a0888c
-# ╟─43734e4f-2efc-4f12-81ac-bce7bf7ada0a
+# ╠═43734e4f-2efc-4f12-81ac-bce7bf7ada0a
 # ╟─080b744e-8f14-406d-bdd2-fbcd3c1ec753
 # ╟─806b3733-6c06-4956-8b86-aa096f060ac6
+# ╠═19cf528f-ce61-4423-9474-162f415f18c0
