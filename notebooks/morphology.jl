@@ -34,26 +34,22 @@ begin
 	HTML(msg)
 end
 
+# ╔═╡ 176cd742-7018-4354-bdcd-7e2fd52ca2f8
+@bind loadem Button("Reload data")
+
 # ╔═╡ 23d97545-ce12-4456-92fc-d1a7fbe41073
 
 
 # ╔═╡ 348cd85a-f6a6-4492-8f78-6f1ed82c76f5
 md"""> UI
-- add "Reload" button
+
 """
-
-# ╔═╡ bce7967a-14e5-41a0-8c43-7fecb9dac002
-
 
 # ╔═╡ 8d07e6b4-f481-4cb2-9569-5c2da892daee
 # Format a single token by wrapping HTML span around unparsed tokens
 function formatToken(tkn)
 	isempty(tkn.analyses) ? "<span class=\"missing\">$(tkn.passage.text)</span>" : tkn.passage.text
 end
-
-# ╔═╡ 64604866-8117-48b2-9992-a9831d5cb24e
-# This should be derived from repo catalog... Have user select a text?
-baseurn = CtsUrn("urn:cts:greekLit:tlg4036.tlg023.normed:")
 
 # ╔═╡ 48258e74-0d27-48bd-aa2d-901d41c43a16
 css = html"""
@@ -72,26 +68,60 @@ color: silver;
 # ╔═╡ 1afb0aa2-d02e-47de-a994-6993a3c567a5
 md"> Underpinnings"
 
+# ╔═╡ 64604866-8117-48b2-9992-a9831d5cb24e
+# This should be derived from repo catalog... Have user select a text?
+baseurn = CtsUrn("urn:cts:greekLit:tlg4036.tlg023.normed:")
+
 # ╔═╡ 77854304-8beb-4278-ac06-3f25df7c549e
 md"Read orthography results from preparsed cex."
 
 # ╔═╡ d79729a1-5f89-4f1b-9fc0-95f238005868
 tkns = begin
+	loadem
 	f = joinpath(dirname(pwd()), "morphology", "va-other-parses.cex")
 	read(f, String) |> CitableParserBuilder.analyzedtokens_fromabbrcex
 end
 
+# ╔═╡ f415a8a0-e6c9-4a35-b082-69a24f3cdfd8
+function editorsrepo() 
+    repository(dirname(pwd()))
+end
+
+# ╔═╡ e58dd01e-3c8d-49a7-a92d-1ec4e6e3c167
+repo = editorsrepo()
+
+# ╔═╡ 8b171832-d51c-4a84-a1a4-eb6cb2c4be1f
+txtmenu = begin
+	loadem
+	online = filter(row -> row.online, textcatalog_df(repo))
+	txtopts = Pair{String, String}[]
+	for r in eachrow(online)
+		lbl = join([r.group, r.work, "($(r.version))"], ", ")
+		push!(txtopts, r.urn.urn => lbl)
+	end
+	txtopts
+end
+
+# ╔═╡ 03b557cb-b4b6-4ac1-9c5e-2e631c39983f
+md"""Select a text: $(@bind txtchoice Select(txtmenu)) """
+
+# ╔═╡ d8f4ba9d-6763-4448-b9c2-c3b363ae5e20
+selectedtext = CtsUrn(txtchoice) |> dropversion
+
 # ╔═╡ ca12a71b-3414-4e72-99d0-003175304501
-psgmenu = map(t -> collapsePassageBy(t.passage.urn, 1) |> passagecomponent, tkns) |> unique
+psgmenu = begin
+	tknsfortext = filter(t -> urncontains(selectedtext, t.passage.urn), tkns)
+	map(t -> collapsePassageBy(t.passage.urn, 1) |> passagecomponent, tknsfortext) |> unique
+end
 
 
 # ╔═╡ 63649612-19ab-4aa1-afac-0f7989e155e0
-md"""Select a passage to review: $(@bind psg Select(psgmenu))"""
+md"""Select a passage: $(@bind psg Select(psgmenu))"""
 
 # ╔═╡ 9f5dd9a7-596a-4dc4-9f2b-bd0509a5870c
 # Select all tokens matching passage user selected
 selectedtkns = begin
-	selectionurn = addpassage(baseurn, psg)
+	selectionurn = addpassage(selectedtext, psg)
 	filter(t -> urncontains(selectionurn, t.passage.urn) ,tkns)
 end
 
@@ -103,14 +133,6 @@ begin
 	end
 	HTML(join(txt, " "))
 end
-
-# ╔═╡ f415a8a0-e6c9-4a35-b082-69a24f3cdfd8
-function editorsrepo() 
-    repository(dirname(pwd()))
-end
-
-# ╔═╡ e58dd01e-3c8d-49a7-a92d-1ec4e6e3c167
-repo = editorsrepo()
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -724,18 +746,21 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╔═╡ Cell order:
 # ╟─cdb554b6-30cb-11ec-0e1d-874738c0c01a
 # ╟─8f5c30f3-9079-4b62-a88c-5c36585cb27c
+# ╟─176cd742-7018-4354-bdcd-7e2fd52ca2f8
 # ╟─afd4c534-7add-4465-a4e0-e9743d8f9fd9
+# ╟─03b557cb-b4b6-4ac1-9c5e-2e631c39983f
 # ╟─63649612-19ab-4aa1-afac-0f7989e155e0
 # ╟─0b1ed61a-f688-4a75-99f1-ea2767b6bb4d
 # ╟─23d97545-ce12-4456-92fc-d1a7fbe41073
-# ╠═348cd85a-f6a6-4492-8f78-6f1ed82c76f5
+# ╟─348cd85a-f6a6-4492-8f78-6f1ed82c76f5
+# ╟─d8f4ba9d-6763-4448-b9c2-c3b363ae5e20
+# ╟─8b171832-d51c-4a84-a1a4-eb6cb2c4be1f
 # ╟─9f5dd9a7-596a-4dc4-9f2b-bd0509a5870c
-# ╠═bce7967a-14e5-41a0-8c43-7fecb9dac002
 # ╟─8d07e6b4-f481-4cb2-9569-5c2da892daee
-# ╟─64604866-8117-48b2-9992-a9831d5cb24e
 # ╟─ca12a71b-3414-4e72-99d0-003175304501
 # ╟─48258e74-0d27-48bd-aa2d-901d41c43a16
 # ╟─1afb0aa2-d02e-47de-a994-6993a3c567a5
+# ╟─64604866-8117-48b2-9992-a9831d5cb24e
 # ╟─77854304-8beb-4278-ac06-3f25df7c549e
 # ╟─d79729a1-5f89-4f1b-9fc0-95f238005868
 # ╟─e58dd01e-3c8d-49a7-a92d-1ec4e6e3c167
