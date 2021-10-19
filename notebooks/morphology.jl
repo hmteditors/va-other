@@ -4,6 +4,15 @@
 using Markdown
 using InteractiveUtils
 
+# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
+macro bind(def, element)
+    quote
+        local el = $(esc(element))
+        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : missing
+        el
+    end
+end
+
 # ╔═╡ cdb554b6-30cb-11ec-0e1d-874738c0c01a
 begin
 	using EditorsRepo
@@ -12,30 +21,58 @@ begin
 	using Orthography
 	using PolytonicGreek
 	using DataFrames
+	using CitableParserBuilder
+	using PlutoUI
 end
 
 # ╔═╡ 8f5c30f3-9079-4b62-a88c-5c36585cb27c
 md"# Morphology"
 
+# ╔═╡ 23d97545-ce12-4456-92fc-d1a7fbe41073
+
+
 # ╔═╡ 348cd85a-f6a6-4492-8f78-6f1ed82c76f5
 md"""> UI
 
-- extract URNs for menu
 - select contained tokens and format
 - add "Reload" button
 """
+
+# ╔═╡ 8d07e6b4-f481-4cb2-9569-5c2da892daee
+function formatToken(tkn)
+	isempty(tkn.analyses) ? "<span class=\"missing\">$tkn.passage.text</span>" : tkn.passage.text
+end
+
+# ╔═╡ 64604866-8117-48b2-9992-a9831d5cb24e
+	baseurn = CtsUrn("urn:cts:greekLit:tlg4036.tlg023.normed:")
 
 # ╔═╡ 1afb0aa2-d02e-47de-a994-6993a3c567a5
 md"> Underpinnings"
 
 # ╔═╡ 77854304-8beb-4278-ac06-3f25df7c549e
-md"We'll read orthography results from preparsed cex."
+md"Read orthography results from preparsed cex."
 
 # ╔═╡ d79729a1-5f89-4f1b-9fc0-95f238005868
-begin
-	# f = joinpath(pwd(), "va-other-parses.cex")
-	# tkns = read(f) |> analyzedtokens_fromabbrcex
+tkns = begin
+	f = joinpath(dirname(pwd()), "morphology", "va-other-parses.cex")
+	read(f, String) |> CitableParserBuilder.analyzedtokens_fromabbrcex
 end
+
+# ╔═╡ ca12a71b-3414-4e72-99d0-003175304501
+psgmenu = map(t -> collapsePassageBy(t.passage.urn, 1) |> passagecomponent, tkns) |> unique
+
+
+# ╔═╡ 63649612-19ab-4aa1-afac-0f7989e155e0
+md"""Passage: $(@bind psg Select(psgmenu))"""
+
+# ╔═╡ 9f5dd9a7-596a-4dc4-9f2b-bd0509a5870c
+selectedtkns = begin
+	selectionurn = addpassage(baseurn, psg)
+	filter(t -> urncontains(selectionurn, t.passage.urn) ,tkns)
+end
+
+
+
 
 # ╔═╡ f415a8a0-e6c9-4a35-b082-69a24f3cdfd8
 function editorsrepo() 
@@ -49,19 +86,23 @@ repo = editorsrepo()
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 CitableCorpus = "cf5ac11a-93ef-4a1a-97a3-f6af101603b5"
+CitableParserBuilder = "c834cb9d-35b9-419a-8ff8-ecaeea9e2a2a"
 CitableText = "41e66566-473b-49d4-85b7-da83b66615d8"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 EditorsRepo = "3fa2051c-bcb6-4d65-8a68-41ff86d56437"
 Orthography = "0b4c9448-09b0-4e78-95ea-3eb3328be36d"
+PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 PolytonicGreek = "72b824a7-2b4a-40fa-944c-ac4f345dc63a"
 
 [compat]
-CitableCorpus = "~0.6.4"
+CitableCorpus = "~0.7.0"
+CitableParserBuilder = "~0.20.0"
 CitableText = "~0.11.1"
 DataFrames = "~1.2.2"
-EditorsRepo = "~0.14.2"
-Orthography = "~0.14.1"
-PolytonicGreek = "~0.13.1"
+EditorsRepo = "~0.14.3"
+Orthography = "~0.15.0"
+PlutoUI = "~0.7.16"
+PolytonicGreek = "~0.13.2"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -87,9 +128,9 @@ uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
 
 [[AtticGreek]]
 deps = ["DocStringExtensions", "Documenter", "Orthography", "PolytonicGreek", "Test", "Unicode"]
-git-tree-sha1 = "f02140c6b3b8e0c665a72d67f4e0d866a454ead2"
+git-tree-sha1 = "c963e50843b6bfc52c2516c93db645b0b13f42ef"
 uuid = "330c8319-f7ed-461a-8c52-cee5da4c0892"
-version = "0.7.1"
+version = "0.7.3"
 
 [[Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
@@ -102,9 +143,9 @@ version = "0.9.6"
 
 [[ChainRulesCore]]
 deps = ["Compat", "LinearAlgebra", "SparseArrays"]
-git-tree-sha1 = "8d954297bc51cc64f15937c2093799c3617b73e4"
+git-tree-sha1 = "d9e40e3e370ee56c5b57e0db651d8f92bce98fea"
 uuid = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
-version = "1.10.0"
+version = "1.10.1"
 
 [[CitableBase]]
 deps = ["DocStringExtensions", "Documenter", "Test"]
@@ -114,9 +155,9 @@ version = "4.0.0"
 
 [[CitableCorpus]]
 deps = ["CitableBase", "CitableText", "CiteEXchange", "DataFrames", "DocStringExtensions", "Documenter", "HTTP", "Test"]
-git-tree-sha1 = "0cdf8b29b03af1b8f9ef0c831b232448ce1d0afc"
+git-tree-sha1 = "597ed37ccfb3118bc55a55a989eee3b7fccc3f80"
 uuid = "cf5ac11a-93ef-4a1a-97a3-f6af101603b5"
-version = "0.6.4"
+version = "0.7.0"
 
 [[CitableObject]]
 deps = ["CitableBase", "DocStringExtensions", "Documenter", "Test"]
@@ -126,9 +167,9 @@ version = "0.8.3"
 
 [[CitableParserBuilder]]
 deps = ["CSV", "CitableBase", "CitableCorpus", "CitableObject", "CitableText", "DataStructures", "DocStringExtensions", "Documenter", "HTTP", "Orthography", "Test", "TypedTables"]
-git-tree-sha1 = "04f6e3e139e2d3e990b6452e5c1a950a1fc9a1c3"
+git-tree-sha1 = "90f615aa47d2f7dac29de5189c55daaae73d6ceb"
 uuid = "c834cb9d-35b9-419a-8ff8-ecaeea9e2a2a"
-version = "0.17.0"
+version = "0.20.0"
 
 [[CitablePhysicalText]]
 deps = ["CSV", "CitableObject", "CitableText", "CiteEXchange", "DataFrames", "DocStringExtensions", "Documenter", "Test"]
@@ -138,9 +179,9 @@ version = "0.3.3"
 
 [[CitableTeiReaders]]
 deps = ["CitableCorpus", "CitableText", "DocStringExtensions", "Documenter", "EzXML", "Test"]
-git-tree-sha1 = "a7a41732b8af5c4b9c006db07cd8da02d246e645"
+git-tree-sha1 = "e45b57aa98382cdb5268541d2755b5b4cb1ec11d"
 uuid = "b4325aa9-906c-402e-9c3f-19ab8a88308e"
-version = "0.7.1"
+version = "0.7.2"
 
 [[CitableText]]
 deps = ["CitableBase", "DocStringExtensions", "Documenter", "Test"]
@@ -235,15 +276,15 @@ uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
 
 [[EditionBuilders]]
 deps = ["CitableCorpus", "CitableText", "DocStringExtensions", "Documenter", "EzXML", "Test"]
-git-tree-sha1 = "67e2b1d942e49c9ce54863f17cd26b987e9735f3"
+git-tree-sha1 = "d6a8bf51be16b58ea3456ba47acb0b4397de984c"
 uuid = "2fb66cca-c1f8-4a32-85dd-1a01a9e8cd8f"
-version = "0.6.0"
+version = "0.6.1"
 
 [[EditorsRepo]]
 deps = ["AtticGreek", "CSV", "CitableBase", "CitableCorpus", "CitableObject", "CitablePhysicalText", "CitableTeiReaders", "CitableText", "CiteEXchange", "DataFrames", "DocStringExtensions", "Documenter", "EditionBuilders", "Lycian", "ManuscriptOrthography", "Orthography", "PolytonicGreek", "Test"]
-git-tree-sha1 = "33abc9d00c10bf11315b8cb18c01f42169fc6ab7"
+git-tree-sha1 = "419a99568752e5bc0ce02a160ed0720091b8f6c8"
 uuid = "3fa2051c-bcb6-4d65-8a68-41ff86d56437"
-version = "0.14.2"
+version = "0.14.3"
 
 [[EzXML]]
 deps = ["Printf", "XML2_jll"]
@@ -272,6 +313,17 @@ deps = ["Base64", "Dates", "IniFile", "Logging", "MbedTLS", "NetworkOptions", "S
 git-tree-sha1 = "14eece7a3308b4d8be910e265c724a6ba51a9798"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 version = "0.9.16"
+
+[[Hyperscript]]
+deps = ["Test"]
+git-tree-sha1 = "8d511d5b81240fc8e6802386302675bdf47737b9"
+uuid = "47d2ed2b-36de-50cf-bf87-49c2cf4b8b91"
+version = "0.0.4"
+
+[[HypertextLiteral]]
+git-tree-sha1 = "f6532909bf3d40b308a0f360b6a0e626c0e263a8"
+uuid = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
+version = "0.9.1"
 
 [[IOCapture]]
 deps = ["Logging", "Random"]
@@ -373,9 +425,9 @@ uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 
 [[Lycian]]
 deps = ["CSV", "CitableCorpus", "CitableObject", "CitableParserBuilder", "CitableText", "DataFrames", "DocStringExtensions", "Documenter", "HTTP", "Orthography", "Query", "Test"]
-git-tree-sha1 = "06900595e70e6f807526cdfc162a38cf1b31af6a"
+git-tree-sha1 = "f5408ce44bf228258a221f4fd3f49574206e7bc3"
 uuid = "7c215dd3-d1b4-4517-b6c6-0123f1059a20"
-version = "0.5.0"
+version = "0.5.1"
 
 [[MacroTools]]
 deps = ["Markdown", "Random"]
@@ -385,9 +437,9 @@ version = "0.5.8"
 
 [[ManuscriptOrthography]]
 deps = ["DocStringExtensions", "Documenter", "Orthography", "PolytonicGreek", "Test", "Unicode"]
-git-tree-sha1 = "2b69b441f7ddfd3b14bd5be31144c0f669606da0"
+git-tree-sha1 = "e881995ed5ab21cf300a1f3464465937483c4735"
 uuid = "c7d01213-112e-44c9-bed3-ac95fd3728c7"
-version = "0.2.1"
+version = "0.2.2"
 
 [[Markdown]]
 deps = ["Base64"]
@@ -425,9 +477,9 @@ version = "1.4.1"
 
 [[Orthography]]
 deps = ["CitableBase", "CitableCorpus", "CitableText", "DocStringExtensions", "Documenter", "OrderedCollections", "StatsBase", "Test", "TypedTables", "Unicode"]
-git-tree-sha1 = "de99ac757d7f3e79ea8a9487d020977161be55fd"
+git-tree-sha1 = "3cd7d46f0bae8dc2915f63d6a68073e65477824b"
 uuid = "0b4c9448-09b0-4e78-95ea-3eb3328be36d"
-version = "0.14.1"
+version = "0.15.0"
 
 [[Parsers]]
 deps = ["Dates"]
@@ -439,11 +491,17 @@ version = "2.0.6"
 deps = ["Artifacts", "Dates", "Downloads", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 
+[[PlutoUI]]
+deps = ["Base64", "Dates", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "Markdown", "Random", "Reexport", "UUIDs"]
+git-tree-sha1 = "4c8a7d080daca18545c56f1cac28710c362478f3"
+uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+version = "0.7.16"
+
 [[PolytonicGreek]]
 deps = ["DocStringExtensions", "Documenter", "Orthography", "Test", "Unicode"]
-git-tree-sha1 = "945794957d573c65c813e7df608f78d772cfd190"
+git-tree-sha1 = "603debfd221e9ae14ea0fbad4c0f3aaf3062d326"
 uuid = "72b824a7-2b4a-40fa-944c-ac4f345dc63a"
-version = "0.13.1"
+version = "0.13.2"
 
 [[PooledArrays]]
 deps = ["DataAPI", "Future"]
@@ -636,10 +694,16 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╔═╡ Cell order:
 # ╠═cdb554b6-30cb-11ec-0e1d-874738c0c01a
 # ╟─8f5c30f3-9079-4b62-a88c-5c36585cb27c
+# ╟─63649612-19ab-4aa1-afac-0f7989e155e0
+# ╟─23d97545-ce12-4456-92fc-d1a7fbe41073
 # ╟─348cd85a-f6a6-4492-8f78-6f1ed82c76f5
+# ╠═9f5dd9a7-596a-4dc4-9f2b-bd0509a5870c
+# ╟─8d07e6b4-f481-4cb2-9569-5c2da892daee
+# ╟─64604866-8117-48b2-9992-a9831d5cb24e
+# ╟─ca12a71b-3414-4e72-99d0-003175304501
 # ╟─1afb0aa2-d02e-47de-a994-6993a3c567a5
 # ╟─77854304-8beb-4278-ac06-3f25df7c549e
-# ╠═d79729a1-5f89-4f1b-9fc0-95f238005868
+# ╟─d79729a1-5f89-4f1b-9fc0-95f238005868
 # ╟─e58dd01e-3c8d-49a7-a92d-1ec4e6e3c167
 # ╠═f415a8a0-e6c9-4a35-b082-69a24f3cdfd8
 # ╟─00000000-0000-0000-0000-000000000001
