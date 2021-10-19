@@ -4,12 +4,16 @@ using CitableCorpus
 using Orthography
 using PolytonicGreek
 using Kanones, Kanones.FstBuilder
+using EditorsRepo
 
 # Assume that this directory is checked out next door.  Adjust if necessary
 function kroot()
     joinpath((pwd() |> dirname |> dirname), "Kanones.jl")
 end
 
+function editorsrepo() 
+    repository(dirname(pwd()))
+end
 
 function customparser(rootdir)
     fstsrc  =  joinpath(rootdir, "fst")
@@ -25,9 +29,11 @@ function customparser(rootdir)
     buildparser(kd,fstsrc, tgt; force = true)
 end
 
-# 1. load a corpus 
+# 1. load a corpus by constructing normalized version of every text 
+# cataloged in repository
+repo = editorsrepo()
 psgs = []
-for u in citation_df(editorsrepo())[:,:urn]
+for u in citation_df(repo)[:,:urn]
     push!(psgs, EditorsRepo.normalized_passages(repo, u))
 end
 c = psgs |> Iterators.flatten |> collect |> CitableTextCorpus
@@ -39,7 +45,7 @@ tknized = tokenizedcorpus(c,ortho)
 # 3. parse and write to disk
 function reparse(tkncorpus, parser)
     parsed = parsecorpus(tkncorpus, parser)
-    open(joinpath(pwd(), "morphology", "va-other-parses.cex"),"w") do io
+    open(joinpath(pwd(), "va-other-parses.cex"),"w") do io
         write(io, delimited(parsed))
     end
 end

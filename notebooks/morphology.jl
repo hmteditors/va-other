@@ -17,17 +17,25 @@ end
 # ╔═╡ 8f5c30f3-9079-4b62-a88c-5c36585cb27c
 md"# Morphology"
 
+# ╔═╡ 348cd85a-f6a6-4492-8f78-6f1ed82c76f5
+md"""> UI
+
+- extract URNs for menu
+- select contained tokens and format
+- add "Reload" button
+"""
+
 # ╔═╡ 1afb0aa2-d02e-47de-a994-6993a3c567a5
 md"> Underpinnings"
 
-# ╔═╡ 8c2a2f2a-c3e9-40b9-8290-b6cbda7f4cc9
-md"We need a tokenized corpus. That requires an orthography."
-
-# ╔═╡ 56fcbcb6-3b30-4dbe-bc0e-3ada63036e51
-ortho = literaryGreek()
-
 # ╔═╡ 77854304-8beb-4278-ac06-3f25df7c549e
 md"We'll read orthography results from preparsed cex."
+
+# ╔═╡ d79729a1-5f89-4f1b-9fc0-95f238005868
+begin
+	# f = joinpath(pwd(), "va-other-parses.cex")
+	# tkns = read(f) |> analyzedtokens_fromabbrcex
+end
 
 # ╔═╡ f415a8a0-e6c9-4a35-b082-69a24f3cdfd8
 function editorsrepo() 
@@ -36,17 +44,6 @@ end
 
 # ╔═╡ e58dd01e-3c8d-49a7-a92d-1ec4e6e3c167
 repo = editorsrepo()
-
-# ╔═╡ 348dde9d-3c40-4fbf-a140-4eb6f00fa9b9
-tokenized = begin
-	psgs = []
-	for u in citation_df(editorsrepo())[:,:urn]
-		push!(psgs, EditorsRepo.normalized_passages(repo, u))
-	end
-	c = psgs |> Iterators.flatten |> collect |> CitableTextCorpus
-	tokenizedcorpus(c, ortho)
-	
-end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -639,12 +636,11 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╔═╡ Cell order:
 # ╠═cdb554b6-30cb-11ec-0e1d-874738c0c01a
 # ╟─8f5c30f3-9079-4b62-a88c-5c36585cb27c
+# ╟─348cd85a-f6a6-4492-8f78-6f1ed82c76f5
 # ╟─1afb0aa2-d02e-47de-a994-6993a3c567a5
-# ╟─8c2a2f2a-c3e9-40b9-8290-b6cbda7f4cc9
-# ╟─56fcbcb6-3b30-4dbe-bc0e-3ada63036e51
-# ╠═348dde9d-3c40-4fbf-a140-4eb6f00fa9b9
 # ╟─77854304-8beb-4278-ac06-3f25df7c549e
+# ╠═d79729a1-5f89-4f1b-9fc0-95f238005868
 # ╟─e58dd01e-3c8d-49a7-a92d-1ec4e6e3c167
-# ╟─f415a8a0-e6c9-4a35-b082-69a24f3cdfd8
+# ╠═f415a8a0-e6c9-4a35-b082-69a24f3cdfd8
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
