@@ -25,11 +25,33 @@ function customparser(rootdir)
     buildparser(kd,fstsrc, tgt; force = true)
 end
 
-# load a corpus, tokenize and parse
-#f = joinpath(pwd(), "scratch", "lysias1.cex")
-#c = read(f) |> corpus_fromcex
+# 1. load a corpus 
+psgs = []
+for u in citation_df(editorsrepo())[:,:urn]
+    push!(psgs, EditorsRepo.normalized_passages(repo, u))
+end
+c = psgs |> Iterators.flatten |> collect |> CitableTextCorpus
+
+# 2. tokenize 
 ortho = literaryGreek()
 tknized = tokenizedcorpus(c,ortho)
+
+# 3. parse and write to disk
+function reparse(tkncorpus, parser)
+    parsed = parsecorpus(tkncorpus, parser)
+    open(joinpath(pwd(), "morphology", "va-other-parses.cex"),"w") do io
+        write(io, delimited(parsed))
+    end
+end
+
+# Execute this repeatedly as you edit/revise:
+function rebuild()
+    p = customparser(kroot())
+    reparse(tknized, p)
+end
+
+
+
 
 
 # For labelling lemmata:
