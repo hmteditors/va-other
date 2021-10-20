@@ -28,14 +28,14 @@ end
 # ╔═╡ 8f5c30f3-9079-4b62-a88c-5c36585cb27c
 md"# Review morphology of passages"
 
+# ╔═╡ 176cd742-7018-4354-bdcd-7e2fd52ca2f8
+@bind loadem Button("Reload data")
+
 # ╔═╡ afd4c534-7add-4465-a4e0-e9743d8f9fd9
 begin
 	msg = "<blockquote>Words highlighted <span class=\"missing\">like this</span> are not parsed.</blockquote>"
 	HTML(msg)
 end
-
-# ╔═╡ 176cd742-7018-4354-bdcd-7e2fd52ca2f8
-@bind loadem Button("Reload data")
 
 # ╔═╡ 23d97545-ce12-4456-92fc-d1a7fbe41073
 
