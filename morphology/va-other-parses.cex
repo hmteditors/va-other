@@ -10,7 +10,7 @@ urn:cts:greekLit:tlg4036.tlg023.normed:Homer.title.7|διῃρημένων|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.title.8|τὸ|το|lsj.n71882|morphforms.9010003400|pronoun.n71882t|litgreek.pronouns1
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.title.8|τὸ|το|lsj.n71882|morphforms.9010003100|pronoun.n71882q|litgreek.pronouns1
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.title.9|Α|||||
-urn:cts:greekLit:tlg4036.tlg023.normed:Homer.title.10|Ὁμήρου|||||
+urn:cts:greekLit:tlg4036.tlg023.normed:Homer.title.10|Ὁμήρου|ὁμηρου|lsj.n73492|morphforms.2010001200|nounstems.n73492|nouninfl.os_ou2
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.title.11|χρόνοι|χρονοι|lsj.n114753|morphforms.2030001100|nounstems.n114753|nouninfl.os_ou6
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.title.11|χρόνοι|χρονοι|lsj.n114753|morphforms.2030001500|nounstems.n114753|nouninfl.os_ou10
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.title.12|βίος|βιος|lsj.n19972|morphforms.2010001100|nounstems.n19972|nouninfl.os_ou1
@@ -29,12 +29,12 @@ urn:cts:greekLit:tlg4036.tlg023.normed:Homer.1.5|τούτων|τουτων|lsj.n
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.1.6|δ'|δ'|lsj.n23596|morphforms.1000000003|uninflectedstems.n23596a|litgreek.indeclinable1
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.1.7|εἰσὶ|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.1.8|κράτιστοι|||||
-urn:cts:greekLit:tlg4036.tlg023.normed:Homer.1.9|ὅμηρος|||||
+urn:cts:greekLit:tlg4036.tlg023.normed:Homer.1.9|ὅμηρος|ὁμηρος|lsj.n73492|morphforms.2010001100|nounstems.n73492|nouninfl.os_ou1
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.1.10|ἡσίοδος|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.1.11|πείσανδρος|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.1.12|πανύασσισ|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.1.13|ἀντίμαχος|||||
-urn:cts:greekLit:tlg4036.tlg023.normed:Homer.2.1|ὅμηρος|||||
+urn:cts:greekLit:tlg4036.tlg023.normed:Homer.2.1|ὅμηρος|ὁμηρος|lsj.n73492|morphforms.2010001100|nounstems.n73492|nouninfl.os_ou1
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.2.2|μὲν|μεν|lsj.n66260|morphforms.1000000003|uninflectedstems.n66260|litgreek.indeclinable1
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.2.3|οὖν|οὐν|lsj.n75887|morphforms.1000000003|uninflectedstems.n75887|litgreek.indeclinable1
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.2.4|τίνων|||||
@@ -172,7 +172,7 @@ urn:cts:greekLit:tlg4036.tlg023.normed:Homer.8.15|γὰρ|γαρ|lsj.n21618|morp
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.8.16|τυφλοὺς|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.8.17|ὑπὸ|ὑπο|lsj.n108092|morphforms.1000000002|uninflectedstems.n108092|litgreek.indeclinable3
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.8.18|αἰολέων|||||
-urn:cts:greekLit:tlg4036.tlg023.normed:Homer.8.19|ὁμηρος|||||
+urn:cts:greekLit:tlg4036.tlg023.normed:Homer.8.19|ὁμηρος|ὁμηρος|lsj.n73492|morphforms.2010001100|nounstems.n73492|nouninfl.os_ou1
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.8.20|καλεῖσθαι|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.9.1|ἑλλανικὸς|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.9.2|δὲ|δε|lsj.n23596|morphforms.1000000003|uninflectedstems.n23596|litgreek.indeclinable1
@@ -192,7 +192,7 @@ urn:cts:greekLit:tlg4036.tlg023.normed:Homer.10.1|μαίονα|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.10.2|γὰρ|γαρ|lsj.n21618|morphforms.1000000003|uninflectedstems.n21618|litgreek.indeclinable1
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.10.3|φασὶ|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.10.4|τὸν|τον|lsj.n71882|morphforms.9010001400|pronoun.n71882d|litgreek.pronouns1
-urn:cts:greekLit:tlg4036.tlg023.normed:Homer.10.5|ὁμήρου|||||
+urn:cts:greekLit:tlg4036.tlg023.normed:Homer.10.5|ὁμήρου|ὁμηρου|lsj.n73492|morphforms.2010001200|nounstems.n73492|nouninfl.os_ou2
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.10.6|πατέρα|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.10.7|καὶ|και|lsj.n51951|morphforms.1000000001|uninflectedstems.n51951|litgreek.indeclinable2
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.10.8|δῖον|||||
@@ -473,7 +473,7 @@ urn:cts:greekLit:tlg4036.tlg023.normed:Homer.27.7|νικήσας|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.27.8|ἐν|ἐν|lsj.n34700|morphforms.1000000002|uninflectedstems.n34700|litgreek.indeclinable3
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.27.9|χαλκίδι|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.27.10|θεῖον|||||
-urn:cts:greekLit:tlg4036.tlg023.normed:Homer.27.11|ὅμηρον|||||
+urn:cts:greekLit:tlg4036.tlg023.normed:Homer.27.11|ὅμηρον|ὁμηρον|lsj.n73492|morphforms.2010001400|nounstems.n73492|nouninfl.os_ou4
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.1|ἀλλὰ|ἀλλα|lsj.n4357|morphforms.1000000001|uninflectedstems.n4357|litgreek.indeclinable2
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.2|γὰρ|γαρ|lsj.n21618|morphforms.1000000003|uninflectedstems.n21618|litgreek.indeclinable1
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.3|ἐπλανήθησαν|||||
