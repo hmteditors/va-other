@@ -56,7 +56,7 @@ end
 
 # Execute this repeatedly as you edit/revise:
 function rebuild()
-    p = customparser(kroot(), hmt_kanones())
+    p = customparser(kroot(), hmt_lexicon())
     reparse(tknized, p)
 end
 
