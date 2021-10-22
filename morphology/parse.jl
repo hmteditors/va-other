@@ -6,26 +6,30 @@ using PolytonicGreek
 using Kanones, Kanones.FstBuilder
 using EditorsRepo
 
-# Assume that this directory is checked out next door.  Adjust if necessary
+# Assume that these two directories are checked out next door.  
+# Adjust if necessary.
 function kroot()
     joinpath((pwd() |> dirname |> dirname), "Kanones.jl")
 end
+function hmt_lexicon()
+    joinpath((pwd() |> dirname |> dirname), "hmt-lexicon", "kdata")
+end
+
 
 function editorsrepo() 
     repository(dirname(pwd()))
 end
 
-function customparser(rootdir)
-    fstsrc  =  joinpath(rootdir, "fst")
-    coreinfl = joinpath(rootdir, "datasets", "core-infl")
-    corevocab = joinpath(rootdir, "datasets", "core-vocab")
-    lysias = joinpath(rootdir, "datasets", "lysias")
-    lysiasnouns = joinpath(rootdir,  "datasets","lysias-nouns")
-    va = joinpath(pwd(), "datasets", "va-other")
+function customparser(krootdir, hmtlexdata)
+    fstsrc  =  joinpath(krootdir, "fst")
+    coreinfl = joinpath(krootdir, "datasets", "core-infl")
+    corevocab = joinpath(krootdir, "datasets", "core-vocab")
+    lysias = joinpath(krootdir, "datasets", "lysias")
+    scholia = joinpath(hmtlexdata, "scholia")
 
-    datasets = [corevocab, coreinfl, lysias, lysiasnouns, va]
+    datasets = [corevocab, coreinfl, lysias, scholia]
     kd = Kanones.Dataset(datasets)
-    tgt = joinpath(rootdir,  "parsers", "lysiasparser")
+    tgt = joinpath(krootdir,  "parsers", "scholiaparser")
     buildparser(kd,fstsrc, tgt; force = true)
 end
 
@@ -52,7 +56,7 @@ end
 
 # Execute this repeatedly as you edit/revise:
 function rebuild()
-    p = customparser(kroot())
+    p = customparser(kroot(), hmt_kanones())
     reparse(tknized, p)
 end
 
