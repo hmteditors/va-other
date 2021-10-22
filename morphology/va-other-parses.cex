@@ -1,6 +1,6 @@
-urn:cts:greekLit:tlg4036.tlg023.normed:Homer.title.1|Πρόκλου|||||
+urn:cts:greekLit:tlg4036.tlg023.normed:Homer.title.1|Πρόκλου|προκλου|hmtpns.proclus|morphforms.2010001200|hmtstems.proclus|nouninfl.os_ou2
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.title.2|Χρηστομαθίας|||||
-urn:cts:greekLit:tlg4036.tlg023.normed:Homer.title.3|γραμματικῆς|||||
+urn:cts:greekLit:tlg4036.tlg023.normed:Homer.title.3|γραμματικῆς|γραμματικης|lsj.n22755|morphforms.7010002210|adjstems.n22755|adjinfl.oshon5
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.title.4|τῶν|των|lsj.n71882|morphforms.9030003200|pronoun.n71882v|litgreek.pronouns1
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.title.4|τῶν|των|lsj.n71882|morphforms.9030002200|pronoun.n71882n|litgreek.pronouns1
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.title.4|τῶν|των|lsj.n71882|morphforms.9030001200|pronoun.n71882f|litgreek.pronouns1
@@ -247,7 +247,7 @@ urn:cts:greekLit:tlg4036.tlg023.normed:Homer.13.2|φασὶν|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.13.3|αὐτῷ|αὐτῳ|lsj.n17907|morphforms.7010001310|adjstems.n17907a|adjinfl.os_h_on_pos7
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.13.3|αὐτῷ|αὐτῳ|lsj.n17907|morphforms.7010003310|adjstems.n17907a|adjinfl.os_h_on_pos9
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.13.4|τὸν|τον|lsj.n71882|morphforms.9010001400|pronoun.n71882d|litgreek.pronouns1
-urn:cts:greekLit:tlg4036.tlg023.normed:Homer.13.5|θεὸν|θεον|lsj.n48291|morphforms.2010001400|nounstems.n48291a|nouninfl.os_ou4
+urn:cts:greekLit:tlg4036.tlg023.normed:Homer.13.5|θεὸν|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.13.6|χρωμένῳ|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.13.7|περὶ|περι|lsj.n81017|morphforms.1000000002|uninflectedstems.n81017|litgreek.indeclinable3
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.13.8|ἀσφαλείας|||||
@@ -308,8 +308,7 @@ urn:cts:greekLit:tlg4036.tlg023.normed:Homer.15.12|τοῖσδε|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.15.13|τοῖς|τοις|lsj.n71882|morphforms.9030003300|pronoun.n71882w|litgreek.pronouns1
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.15.13|τοῖς|τοις|lsj.n71882|morphforms.9030001300|pronoun.n71882g|litgreek.pronouns1
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.15.14|ἔπεσιν|||||
-urn:cts:greekLit:tlg4036.tlg023.normed:Homer.16.1|ἄνδρες|ἀνδρες|lsj.n8665|morphforms.2030001500|irregnoun.irregn8665l|litgreek.irregular1
-urn:cts:greekLit:tlg4036.tlg023.normed:Homer.16.1|ἄνδρες|ἀνδρες|lsj.n8665|morphforms.2030001100|irregnoun.irregn8665g|litgreek.irregular1
+urn:cts:greekLit:tlg4036.tlg023.normed:Homer.16.1|ἄνδρες|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.16.2|ἀπ|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.16.3|ἀρκαδίης|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.16.4|θηρήτορες|||||
@@ -483,7 +482,7 @@ urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.5|τῶν|των|lsj.n71882|morp
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.5|τῶν|των|lsj.n71882|morphforms.9030002200|pronoun.n71882n|litgreek.pronouns1
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.5|τῶν|των|lsj.n71882|morphforms.9030001200|pronoun.n71882f|litgreek.pronouns1
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.6|ἡσιοδείων|||||
-urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.7|ἡμερῶν|ἡμερων|lsj.n46966|morphforms.2030002200|nounstems.n46966|nouninfl.a_as7
+urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.7|ἡμερῶν|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.8|έτερον|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.9|γάρ|γαρ|lsj.n21618|morphforms.1000000003|uninflectedstems.n21618|litgreek.indeclinable1
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.10|τι|||||
@@ -499,7 +498,7 @@ urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.16|οἱ|οἱ|lsj.n71882|morphf
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.17|μὲν|μεν|lsj.n66260|morphforms.1000000003|uninflectedstems.n66260|litgreek.indeclinable1
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.18|περι|περι|lsj.n81017|morphforms.1000000002|uninflectedstems.n81017|litgreek.indeclinable3
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.19|τὸν|τον|lsj.n71882|morphforms.9010001400|pronoun.n71882d|litgreek.pronouns1
-urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.20|ἀριστάρχου|||||
+urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.20|ἀριστάρχου|ἀρισταρχου|hmtpns.aristarchus|morphforms.2010001200|hmtstems.aristarchus|nouninfl.os_ou2
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.21|φασὶ|||||
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.22|γενέσθαι|#γενεσθαι|lsj.n22209|morphforms.400102000|verbstems.n22209c|infinfl.wparts8
 urn:cts:greekLit:tlg4036.tlg023.normed:Homer.28.23|κατὰ|κατα|lsj.n53647|morphforms.1000000002|uninflectedstems.n53647|litgreek.indeclinable3
