@@ -65,6 +65,70 @@ color: silver;
 """
 
 
+# ╔═╡ a543ffaf-64f9-454f-91eb-d64fc78a6f79
+"""
+	
+	background: #fff;
+  	border-radius: 4px;
+  	bottom: 100%;
+	border-color: silver;
+  
+  	display: block;
+  	left: 100%;
+  	padding: 1em;
+  	
+"""
+
+# ╔═╡ 9d404821-3e75-407c-a298-60a68af2a31a
+html"""
+<br/><br/>
+<p>Lead a para</p>
+<p>
+This is a piece of <span class="annotated">annotated text
+<span class="annotation">Just saying....</span>
+</span>, in the middle of other content.
+</p>
+<br/><br/>
+
+"""
+
+# ╔═╡ 514451e2-8518-4ebb-9e39-33422e823d3d
+tooltipcss = html"""
+<style>
+.annotated {
+	position: relative;
+	font-weight: bold;
+}
+
+.annotated .annotation {
+	visibility: hidden;
+	position: absolute; 
+	z-index: 1;
+
+	font-size: 80%;
+	padding: 1em;
+	
+
+	border-radius: 15px;
+	background-color: #fff;
+
+	
+	border-block: 2px solid silver;
+	
+
+	top: -2.5em;
+	left: 20px;
+
+}
+
+.annotated:hover .annotation {
+	visibility: visible;
+	
+}
+
+</style>
+"""
+
 # ╔═╡ 1afb0aa2-d02e-47de-a994-6993a3c567a5
 md"> Underpinnings"
 
@@ -758,11 +822,14 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─9f5dd9a7-596a-4dc4-9f2b-bd0509a5870c
 # ╟─8d07e6b4-f481-4cb2-9569-5c2da892daee
 # ╟─ca12a71b-3414-4e72-99d0-003175304501
-# ╟─48258e74-0d27-48bd-aa2d-901d41c43a16
+# ╠═48258e74-0d27-48bd-aa2d-901d41c43a16
+# ╠═a543ffaf-64f9-454f-91eb-d64fc78a6f79
+# ╟─9d404821-3e75-407c-a298-60a68af2a31a
+# ╠═514451e2-8518-4ebb-9e39-33422e823d3d
 # ╟─1afb0aa2-d02e-47de-a994-6993a3c567a5
 # ╟─64604866-8117-48b2-9992-a9831d5cb24e
 # ╟─77854304-8beb-4278-ac06-3f25df7c549e
-# ╠═d79729a1-5f89-4f1b-9fc0-95f238005868
+# ╟─d79729a1-5f89-4f1b-9fc0-95f238005868
 # ╟─e58dd01e-3c8d-49a7-a92d-1ec4e6e3c167
 # ╟─f415a8a0-e6c9-4a35-b082-69a24f3cdfd8
 # ╟─00000000-0000-0000-0000-000000000001
