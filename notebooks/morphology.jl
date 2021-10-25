@@ -18,6 +18,7 @@ begin
 	using EditorsRepo
 	using CitableText
 	using CitableCorpus
+	using Kanones
 	using Orthography
 	using PolytonicGreek
 	using DataFrames
@@ -33,7 +34,7 @@ md"# Review morphology of passages"
 
 # ╔═╡ afd4c534-7add-4465-a4e0-e9743d8f9fd9
 begin
-	msg = "<blockquote>Words highlighted <span class=\"missing\">like this</span> are not parsed.</blockquote>"
+	msg = "<blockquote><ul><li>Words highlighted <span class=\"missing\">like this</span> are not parsed.</li><li>Hover over other words to see their morphological anlaysis.</li></ul></blockquote>"
 	HTML(msg)
 end
 
@@ -45,12 +46,6 @@ md"""> UI
 
 """
 
-# ╔═╡ 8d07e6b4-f481-4cb2-9569-5c2da892daee
-# Format a single token by wrapping HTML span around unparsed tokens
-function formatToken(tkn)
-	isempty(tkn.analyses) ? "<span class=\"missing\">$(tkn.passage.text)</span>" : tkn.passage.text
-end
-
 # ╔═╡ 48258e74-0d27-48bd-aa2d-901d41c43a16
 css = html"""
 <style>
@@ -61,43 +56,20 @@ css = html"""
 .missing {
 color: silver;
 }
+.lexeme {
+font-weight: bold;
+}
+.morphid {
+}
 </style>
 """
 
-
-# ╔═╡ a543ffaf-64f9-454f-91eb-d64fc78a6f79
-"""
-	
-	background: #fff;
-  	border-radius: 4px;
-  	bottom: 100%;
-	border-color: silver;
-  
-  	display: block;
-  	left: 100%;
-  	padding: 1em;
-  	
-"""
-
-# ╔═╡ 9d404821-3e75-407c-a298-60a68af2a31a
-html"""
-<br/><br/>
-<p>Lead a para</p>
-<p>
-This is a piece of <span class="annotated">annotated text
-<span class="annotation">Just saying....</span>
-</span>, in the middle of other content.
-</p>
-<br/><br/>
-
-"""
 
 # ╔═╡ 514451e2-8518-4ebb-9e39-33422e823d3d
 tooltipcss = html"""
 <style>
 .annotated {
 	position: relative;
-	font-weight: bold;
 }
 
 .annotated .annotation {
@@ -118,6 +90,7 @@ tooltipcss = html"""
 
 	top: -2.5em;
 	left: 20px;
+	min-width: 300px;
 
 }
 
@@ -189,13 +162,50 @@ selectedtkns = begin
 	filter(t -> urncontains(selectionurn, t.passage.urn) ,tkns)
 end
 
+# ╔═╡ abbc7726-0899-4ba5-8e27-0d0b2242f552
+lsjlabels = Kanones.lsjdict_fromurl()
+
+# ╔═╡ 17099c27-cae4-416b-a79f-9214f8ac8327
+function formatAnalysis(analysis)
+	lexemestring =  string(analysis.lexeme)
+	lexemehtml = if haskey(lsjlabels,lexemestring)
+		"<span class=\"lexeme\">$(lexemestring):$(lsjlabels[lexemestring])</span>"
+	else
+		"<span class=\"lexeme\">$(lexemestring)</span>"
+	end
+	formlabel = Kanones.labelform(string(analysis.form.objectid))
+	formhtml = "<span class=\"morphid\">$(formlabel)</span>"
+	join([lexemehtml, formhtml, "<br/>"], " ")
+end
+
+# ╔═╡ 8d07e6b4-f481-4cb2-9569-5c2da892daee
+# Format a single token with wrapped HTML.
+# Unparsed tokens are tagged as span with class "missing".
+# Parsed tokens are wrapped in a span with class "annotated"
+# Within that, there is a span with class "annotation".
+function formatToken(tkn)
+	
+	if isempty(tkn.analyses) 
+		"<span class=\"missing\">$(tkn.passage.text)</span>" 
+	else tkn.passage.text
+		analysishtml = []
+		for a in tkn.analyses
+			push!(analysishtml, formatAnalysis(a))
+		end
+		opener = "<span class=\"annotated\"><span class=\"annotation\">"
+		closer = "</span>$(tkn.passage.text)</span>"
+		opener * join(analysishtml) * closer
+	end
+end
+
 # ╔═╡ 0b1ed61a-f688-4a75-99f1-ea2767b6bb4d
 begin
-	txt = []
+	txt = ["<br/><br/><br/><p>"]
 	for t in selectedtkns
 		push!(txt, formatToken(t))
 	end
-	HTML(join(txt, " "))
+	HTML(join(txt, " ") * "</p>")
+	#join(txt, " ")
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -206,6 +216,7 @@ CitableParserBuilder = "c834cb9d-35b9-419a-8ff8-ecaeea9e2a2a"
 CitableText = "41e66566-473b-49d4-85b7-da83b66615d8"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 EditorsRepo = "3fa2051c-bcb6-4d65-8a68-41ff86d56437"
+Kanones = "107500f9-53d4-4696-8485-0747242ad8bc"
 Orthography = "0b4c9448-09b0-4e78-95ea-3eb3328be36d"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 PolytonicGreek = "72b824a7-2b4a-40fa-944c-ac4f345dc63a"
@@ -216,6 +227,7 @@ CitableParserBuilder = "~0.20.0"
 CitableText = "~0.11.1"
 DataFrames = "~1.2.2"
 EditorsRepo = "~0.14.3"
+Kanones = "~0.1.8"
 Orthography = "~0.15.0"
 PlutoUI = "~0.7.16"
 PolytonicGreek = "~0.13.2"
@@ -424,6 +436,11 @@ version = "0.4.2"
 deps = ["Random"]
 uuid = "9fa8497b-333b-5362-9e8d-4d0656e87820"
 
+[[Glob]]
+git-tree-sha1 = "4df9f7e06108728ebf00a0a11edee4b29a482bb2"
+uuid = "c27321d9-0574-5035-807b-f59d2c89b15c"
+version = "1.3.0"
+
 [[HTTP]]
 deps = ["Base64", "Dates", "IniFile", "Logging", "MbedTLS", "NetworkOptions", "Sockets", "URIs"]
 git-tree-sha1 = "14eece7a3308b4d8be910e265c724a6ba51a9798"
@@ -500,6 +517,12 @@ deps = ["Dates", "Mmap", "Parsers", "Unicode"]
 git-tree-sha1 = "8076680b162ada2a031f707ac7b4953e30667a37"
 uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 version = "0.21.2"
+
+[[Kanones]]
+deps = ["AtticGreek", "CSV", "CitableBase", "CitableCorpus", "CitableObject", "CitableParserBuilder", "CitableText", "DelimitedFiles", "DocStringExtensions", "Documenter", "Glob", "HTTP", "Orthography", "PolytonicGreek", "Test", "Unicode"]
+git-tree-sha1 = "58034121141c7c8e9f6f7f7b97fa952b8de66eac"
+uuid = "107500f9-53d4-4696-8485-0747242ad8bc"
+version = "0.1.8"
 
 [[LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
@@ -808,7 +831,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 """
 
 # ╔═╡ Cell order:
-# ╠═cdb554b6-30cb-11ec-0e1d-874738c0c01a
+# ╟─cdb554b6-30cb-11ec-0e1d-874738c0c01a
 # ╟─8f5c30f3-9079-4b62-a88c-5c36585cb27c
 # ╟─176cd742-7018-4354-bdcd-7e2fd52ca2f8
 # ╟─afd4c534-7add-4465-a4e0-e9743d8f9fd9
@@ -821,16 +844,16 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─8b171832-d51c-4a84-a1a4-eb6cb2c4be1f
 # ╟─9f5dd9a7-596a-4dc4-9f2b-bd0509a5870c
 # ╟─8d07e6b4-f481-4cb2-9569-5c2da892daee
+# ╟─17099c27-cae4-416b-a79f-9214f8ac8327
 # ╟─ca12a71b-3414-4e72-99d0-003175304501
-# ╠═48258e74-0d27-48bd-aa2d-901d41c43a16
-# ╠═a543ffaf-64f9-454f-91eb-d64fc78a6f79
-# ╟─9d404821-3e75-407c-a298-60a68af2a31a
-# ╠═514451e2-8518-4ebb-9e39-33422e823d3d
+# ╟─48258e74-0d27-48bd-aa2d-901d41c43a16
+# ╟─514451e2-8518-4ebb-9e39-33422e823d3d
 # ╟─1afb0aa2-d02e-47de-a994-6993a3c567a5
 # ╟─64604866-8117-48b2-9992-a9831d5cb24e
 # ╟─77854304-8beb-4278-ac06-3f25df7c549e
 # ╟─d79729a1-5f89-4f1b-9fc0-95f238005868
 # ╟─e58dd01e-3c8d-49a7-a92d-1ec4e6e3c167
 # ╟─f415a8a0-e6c9-4a35-b082-69a24f3cdfd8
+# ╟─abbc7726-0899-4ba5-8e27-0d0b2242f552
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
