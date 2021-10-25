@@ -26,6 +26,11 @@ begin
 	using PlutoUI
 end
 
+# ╔═╡ a14dcac0-ba32-420f-8f15-01ca403838a1
+md"""
+*Notebook version*:  **0.1.0**
+"""
+
 # ╔═╡ 8f5c30f3-9079-4b62-a88c-5c36585cb27c
 md"# Review morphology of passages"
 
@@ -832,6 +837,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 
 # ╔═╡ Cell order:
 # ╟─cdb554b6-30cb-11ec-0e1d-874738c0c01a
+# ╟─a14dcac0-ba32-420f-8f15-01ca403838a1
 # ╟─8f5c30f3-9079-4b62-a88c-5c36585cb27c
 # ╟─176cd742-7018-4354-bdcd-7e2fd52ca2f8
 # ╟─afd4c534-7add-4465-a4e0-e9743d8f9fd9
