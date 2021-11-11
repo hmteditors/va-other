@@ -6,6 +6,8 @@ using PolytonicGreek
 using Kanones, Kanones.FstBuilder
 using EditorsRepo
 
+projectname = "va-revisions"
+
 # Assume that these two directories are checked out next door.  
 # Adjust if necessary.
 function kroot()
@@ -49,7 +51,7 @@ tknized = tokenizedcorpus(c,ortho)
 # 3. parse and write to disk
 function reparse(tkncorpus, parser)
     parsed = parsecorpus(tkncorpus, parser)
-    open(joinpath(pwd(), "va-other-parses.cex"),"w") do io
+    open(joinpath(pwd(), s"$(projectname).cex"),"w") do io
         write(io, delimited(parsed))
     end
 end
