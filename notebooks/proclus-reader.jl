@@ -37,10 +37,17 @@ begin
 end
 
 
-# ╔═╡ d2ff2f48-70ea-4837-a29d-1884eacebd61
-function readme(pg,psg)
-	md"""$(pg), $(psg)"""
-end
+# ╔═╡ 4479e111-240a-43ca-95c1-e411fa9b5309
+md"Base URN values:"
+
+# ╔═╡ 7e400dbc-a86a-42d4-a872-864b237b0771
+vapages = Cite2Urn("urn:cite2:hmt:msA.v1:")
+
+# ╔═╡ 03dc3687-0e1a-4796-912d-3d8faf23f3c7
+proclus = CtsUrn("urn:cts:greekLit:tlg4036.tlg023.va:")
+
+# ╔═╡ af7e73ca-b867-44c9-8d0d-473b8fe79264
+
 
 # ╔═╡ e099bf98-fbe3-4ad1-965a-3b94ca01d0e4
 menu = [
@@ -63,18 +70,6 @@ menu = [
 
 # ╔═╡ 15050388-e00b-408f-aca2-1e3a42051d6d
 md"""$(@bind ecloga Select(menu))"""
-
-# ╔═╡ 2bcf30fd-8c7b-4434-9fdf-2f611272f1f8
-if isnothing(ecloga)
-	md"Cypria does not exist in VA"
-elseif isempty(ecloga)
-	md""
-else
-	readme(ecloga[1], ecloga[2])
-end
-
-# ╔═╡ 03dc3687-0e1a-4796-912d-3d8faf23f3c7
-proclus = CtsUrn("urn:cts:greekLit:tlg4036.tlg023.va:")
 
 # ╔═╡ 617ce64a-d7b1-4f66-8bd0-f7a240a929a7
 @bind loadem Button("Load/reload data")
@@ -275,6 +270,42 @@ md"> Repository and image services"
 # root directory.
 function editorsrepo() 
     repository(dirname(pwd()))
+end
+
+# ╔═╡ 86409da9-f4bf-49c3-a05c-7a5f0d97a917
+function formatpsg(psgu) 
+	reading = diplomatic_passagetext(editorsrepo(), psgu)
+	hdg = "**$(passagecomponent(psgu))**"
+	join([hdg, reading], " ")
+end
+
+# ╔═╡ d2ff2f48-70ea-4837-a29d-1884eacebd61
+function readme(tup)
+	txturn = addpassage(proclus, tup[2])
+	pgurn = addobject(vapages, tup[1])
+	pagedse = surfaceDse(editorsrepo(),  pgurn)
+	texturns = pagedse[! , :passage]
+	textchoice = filter(u -> urncontains(txturn, u), texturns)
+
+	psgs = []
+	#reading = diplomatic_passagetext(editorsrepo(), textchoice[1])
+	for txturn in textchoice
+		push!(psgs, formatpsg(txturn))
+	end
+	Markdown.parse("""$(pgurn) 
+	
+	$(join(psgs, "\n\n"))
+	
+	""")
+end
+
+# ╔═╡ 2bcf30fd-8c7b-4434-9fdf-2f611272f1f8
+if isnothing(ecloga)
+	md"Cypria does not exist in VA"
+elseif isempty(ecloga)
+	md"(make a selection)"
+else
+	readme(ecloga)
 end
 
 # ╔═╡ 35255eb9-1f54-4f9d-8c58-2d450e09dff9
@@ -1136,22 +1167,26 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 
 # ╔═╡ Cell order:
 # ╟─766e600d-200c-4421-9a21-a8fa0aa6a4a7
-# ╟─17ebe116-0d7f-4051-a548-1573121a33c9
-# ╠═d2ff2f48-70ea-4837-a29d-1884eacebd61
-# ╠═2bcf30fd-8c7b-4434-9fdf-2f611272f1f8
-# ╟─15050388-e00b-408f-aca2-1e3a42051d6d
-# ╠═e099bf98-fbe3-4ad1-965a-3b94ca01d0e4
+# ╟─4479e111-240a-43ca-95c1-e411fa9b5309
+# ╟─7e400dbc-a86a-42d4-a872-864b237b0771
 # ╟─03dc3687-0e1a-4796-912d-3d8faf23f3c7
+# ╟─17ebe116-0d7f-4051-a548-1573121a33c9
+# ╟─af7e73ca-b867-44c9-8d0d-473b8fe79264
+# ╟─d2ff2f48-70ea-4837-a29d-1884eacebd61
+# ╟─86409da9-f4bf-49c3-a05c-7a5f0d97a917
+# ╟─15050388-e00b-408f-aca2-1e3a42051d6d
+# ╟─2bcf30fd-8c7b-4434-9fdf-2f611272f1f8
+# ╟─e099bf98-fbe3-4ad1-965a-3b94ca01d0e4
 # ╟─35255eb9-1f54-4f9d-8c58-2d450e09dff9
 # ╟─617ce64a-d7b1-4f66-8bd0-f7a240a929a7
-# ╠═8d407e7a-1201-4dd3-bddd-368362037205
+# ╟─8d407e7a-1201-4dd3-bddd-368362037205
 # ╟─ee2f04c1-42bb-46bb-a381-b12138e550ee
 # ╟─834a67df-8c8b-47c6-aa3e-20297576019a
 # ╟─8fcf792e-71eb-48d9-b0e6-e7e175628ccd
 # ╟─9e6f8bf9-4aa7-4253-ba3f-695b13ca6def
 # ╟─06bfa57d-2bbb-498e-b68e-2892d7186245
 # ╟─ad541819-7d4f-4812-8476-8a307c5c1f87
-# ╟─73839e47-8199-4755-8d55-362185907c45
+# ╠═73839e47-8199-4755-8d55-362185907c45
 # ╟─3dd88640-e31f-4400-9c34-2adc2cd4c532
 # ╟─3b04a423-6d0e-4221-8540-ad457d0bb65e
 # ╟─ea1b6e21-7625-4f8f-a345-8e96449c0757
