@@ -39,7 +39,12 @@ end
 
 
 # ╔═╡ 617ce64a-d7b1-4f66-8bd0-f7a240a929a7
- @bind loadem Button("Load/reload data")
+ md"""$(@bind loadem Button("Load/reload data"))"""
+
+# ╔═╡ b158c0f7-f519-4df5-b776-b2c4060717a7
+html"""
+<span class="advice">Click <code>Load/reload data</code> to initialize app after it completely loads.  The first time you select a passage, it will take a moment to compile all the display functions.</span>
+"""
 
 # ╔═╡ be7cddab-9888-401b-962e-8ee6207d1c34
 html"""
@@ -76,7 +81,7 @@ menu = [
 
 
 # ╔═╡ 15050388-e00b-408f-aca2-1e3a42051d6d
-md"""Passage: $(@bind ecloga Select(menu))"""
+md"""Select passage to display: $(@bind ecloga Select(menu))"""
 
 # ╔═╡ a43a0bc8-9648-4c9b-818f-a05de27df7ed
 titles = Dict(
@@ -244,7 +249,7 @@ end
 if isnothing(ecloga)
 	md"Cypria does not exist in VA"
 elseif isempty(ecloga)
-	html"<span class=\"prompt\">(make a selection)</span>"
+	html"<span class=\"advice\">(make a selection)</span>"
 else
 	HTML(readme(ecloga))
 end
@@ -961,6 +966,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╔═╡ Cell order:
 # ╟─766e600d-200c-4421-9a21-a8fa0aa6a4a7
 # ╟─17ebe116-0d7f-4051-a548-1573121a33c9
+# ╟─b158c0f7-f519-4df5-b776-b2c4060717a7
 # ╟─617ce64a-d7b1-4f66-8bd0-f7a240a929a7
 # ╟─52778337-e472-4cdc-b0ae-e8062cf1ef06
 # ╟─15050388-e00b-408f-aca2-1e3a42051d6d
