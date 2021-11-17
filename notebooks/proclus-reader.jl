@@ -20,7 +20,6 @@ begin
 	using CitableText
 	using CitableCorpus
 	using CitableObject
-	using CitableImage
 	using CitablePhysicalText
 	using CitableTeiReaders
 	using CSV
@@ -34,18 +33,65 @@ begin
 	using ManuscriptOrthography
 	using PolytonicGreek
 	using Unicode
+
+	using CitableImage
 end
 
 
-# ╔═╡ af7e73ca-b867-44c9-8d0d-473b8fe79264
-
+# ╔═╡ 617ce64a-d7b1-4f66-8bd0-f7a240a929a7
+ @bind loadem Button("Load/reload data")
 
 # ╔═╡ 0094ef89-a479-4822-a47f-527545b34a0e
 md"""
 ---
 
-> Settings
+> Settings and user-interface elements
 """
+
+# ╔═╡ 01b309e7-67e2-49c8-a67c-3b045fe2e629
+fontmenu = [
+	"Fira Sans",
+	"Alegreya Sans SC",
+	"Arimo",
+	"Inter",
+	"M PLUS 1",
+	"Roboto"
+]
+
+# ╔═╡ 52778337-e472-4cdc-b0ae-e8062cf1ef06
+md"""Font for Greek display: $(@bind font Select(fontmenu, default="M PLUS 1"))"""
+
+# ╔═╡ efb6dd1a-a87c-4aae-8cad-31f84e333512
+greekcss = """
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC&family=Arimo&family=Fira+Sans:ital@0;1&family=Inter&family=M+PLUS+1p&family=Roboto:ital@0;1&display=swap');
+	.greek {
+		font-family: '$(font)', sans-serif;
+	}
+
+figure {
+    display: inline-block;
+    margin: 20px; /* adjust as needed */
+	
+}
+figure img {
+    vertical-align: top;
+	margin-left: 20px;
+}
+figure figcaption {
+    text-align: center;
+}
+
+
+
+</style>
+"""
+
+# ╔═╡ a6463a01-6d3f-4ebe-bd53-6271584c1ced
+greekcss
+
+# ╔═╡ 00c739c4-3f9a-4a2d-92de-6fba03d5f08e
+parsedcss = HTML(greekcss)
 
 # ╔═╡ 7e400dbc-a86a-42d4-a872-864b237b0771
 vapages = Cite2Urn("urn:cite2:hmt:msA.v1:")
@@ -56,98 +102,16 @@ proclus = CtsUrn("urn:cts:greekLit:tlg4036.tlg023.va:")
 # ╔═╡ b77fa921-123d-460f-a599-11f1eb0ad598
 thumbht = 100
 
-# ╔═╡ e099bf98-fbe3-4ad1-965a-3b94ca01d0e4
-menu = [
-		"" => "",
-		("1r","Homer") => "Life of Homer (1r)",
-		("1v","Homer") => "Life of Homer continued (1v)",
-		nothing => "[Cypria: lost in VA]",
-		("6r", "aethiopis") => "Aethiopis (6r)",
-		("6r", "iliasparva") => "Little Iliad (6r)",
-		("6v", "iliasparva") => "Little Iliad continued (6v)",
-		("6v", "iliupersis") => "Sack of Troy (6v)",
-		("4r", "iliupersis") => "Sack of Troy continued (4r)",
-		("4r", "nostoi") => "Returns (Nostoi) (4r)",
-		("4r", "telegonia") => "Telegonia (4r)",
-		("4v", "telegonia") => "Telegonia continued (4v)",
-	
-	
-	]
-
-
-# ╔═╡ 15050388-e00b-408f-aca2-1e3a42051d6d
-md"""$(@bind ecloga Select(menu))"""
-
-# ╔═╡ a43a0bc8-9648-4c9b-818f-a05de27df7ed
-titles = Dict(
-	"Homer" => "Life of Homer",
-	 "aethiopis" => "Aethiopis",
-	"iliasparva" => "Little Iliad",
-	"iliupersis" => "Sack of Troy",
-	"nostoi" => "Returns (Nostoi)",
-	"telegonia" => "Telegonia"
-)
-		
-
-# ╔═╡ d86c76f8-12fe-44e4-ae90-de777597b650
-md"> Display functions"
-
-# ╔═╡ 617ce64a-d7b1-4f66-8bd0-f7a240a929a7
-@bind loadem Button("Load/reload data")
-
-# ╔═╡ ee2f04c1-42bb-46bb-a381-b12138e550ee
-md"> Verification: DSE indexing"
-
-# ╔═╡ ad541819-7d4f-4812-8476-8a307c5c1f87
-md"""
-*Maximum width of image*: $(@bind w Slider(200:1200, show_value=true))
-
-"""
-
-# ╔═╡ ea1b6e21-7625-4f8f-a345-8e96449c0757
-md"""
-
----
-
----
-
-
-> ### Functions
-
-You don't need to look at the rest of the notebook unless you're curious about how it works.  The following cells define the functions that retreive data from your editing repository, validate it, and format it for visual verification.
-
-"""
-
-# ╔═╡ fd401bd7-38e5-44b5-8131-dbe5eb4fe41b
-md"> Formatting"
-
-
-# ╔═╡ 5cba9a9c-74cc-4363-a1ff-026b7b3999ea
-#Create list of text labels for popupmenu
-function surfacemenu(editorsrepo)
-	loadem
-	surfurns = EditorsRepo.surfaces(editorsrepo)
-	surflist = map(u -> u.urn, surfurns)
-	# Add a blank entry so popup menu can come up without a selection
-	pushfirst!( surflist, "")
-end
-
-# ╔═╡ 1814e3b1-8711-4afd-9987-a41d85fd56d9
-# Wrap tokens with invalid orthography in HTML tag
-function formatToken(ortho, s)
-	
-	if isempty(strip(s))
-		s
-	elseif validstring(s, ortho)
-			s
-	else
-		"""<span class='invalid'>$(s)</span>"""
-	end
-end
-
 # ╔═╡ 3dd9b96b-8bca-4d5d-98dc-a54e00c75030
-css = html"""
+css = 
+	"""
 <style>
+	@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC&family=Arimo&family=Fira+Sans:ital@0;1&family=Inter&family=M+PLUS+1p&display=swap');
+	.greek {
+		font-family: '$(font)', sans-serif;
+	}
+
+	
 .prompt {
 	color: silver;
 }
@@ -222,6 +186,44 @@ text-align: center;
 </style>
 """
 
+
+
+# ╔═╡ e099bf98-fbe3-4ad1-965a-3b94ca01d0e4
+menu = [
+		"" => "",
+		("1r","Homer") => "Life of Homer (1r)",
+		("1v","Homer") => "Life of Homer continued (1v)",
+		nothing => "[Cypria: lost in VA]",
+		("6r", "aethiopis") => "Aethiopis (6r)",
+		("6r", "iliasparva") => "Little Iliad (6r)",
+		("6v", "iliasparva") => "Little Iliad continued (6v)",
+		("6v", "iliupersis") => "Sack of Troy (6v)",
+		("4r", "iliupersis") => "Sack of Troy continued (4r)",
+		("4r", "nostoi") => "Returns (Nostoi) (4r)",
+		("4r", "telegonia") => "Telegonia (4r)",
+		("4v", "telegonia") => "Telegonia continued (4v)",
+	
+	
+	]
+
+
+# ╔═╡ 15050388-e00b-408f-aca2-1e3a42051d6d
+md"""Passage: $(@bind ecloga Select(menu))"""
+
+# ╔═╡ a43a0bc8-9648-4c9b-818f-a05de27df7ed
+titles = Dict(
+	"Homer" => "Life of Homer",
+	 "aethiopis" => "Aethiopis",
+	"iliasparva" => "Little Iliad",
+	"iliupersis" => "Sack of Troy",
+	"nostoi" => "Returns (Nostoi)",
+	"telegonia" => "Telegonia"
+)
+		
+
+# ╔═╡ d86c76f8-12fe-44e4-ae90-de777597b650
+md"> Display functions"
+
 # ╔═╡ ec0f3c61-cf3b-4e4c-8419-176626a0888c
 md"> Repository and image services"
 
@@ -234,36 +236,14 @@ function editorsrepo()
     repository(dirname(pwd()))
 end
 
-# ╔═╡ 0956a361-56f2-404c-96a6-a97176192d98
-function textdisplay(tup)
-	txturn = addpassage(proclus, tup[2])
-	pgurn = addobject(vapages, tup[1])
-	pagedse = surfaceDse(editorsrepo(),  pgurn)
-	filter(row -> urncontains(txturn, row.passage), pagedse)
-end
-
-# ╔═╡ 2bcf30fd-8c7b-4434-9fdf-2f611272f1f8
-if isnothing(ecloga)
-	md"Cypria does not exist in VA"
-elseif isempty(ecloga)
-	html"<span class=\"prompt\">(make a selection)</span>"
-else
-	#readme(ecloga)
-	textdisplay(ecloga)
-	
-end
-
 # ╔═╡ 86409da9-f4bf-49c3-a05c-7a5f0d97a917
 function formatpsg(psgu) 
 	reading = diplomatic_passagetext(editorsrepo(), psgu)
-	hdg = "**$(passagecomponent(psgu))**"
-	join([hdg, reading], " ")
+	opening = "<p class=\"greek\">"
+	closing = "</p>"
+	hdg = "<b>$(passagecomponent(psgu))</b>"
+	join([opening, hdg, reading, closing], " ")
 end
-
-# ╔═╡ 8d407e7a-1201-4dd3-bddd-368362037205
-md"""
-$(@bind surface Select(surfacemenu(editorsrepo())))
-"""
 
 # ╔═╡ 080b744e-8f14-406d-bdd2-fbcd3c1ec753
 # Base URL for an ImageCitationTool
@@ -283,7 +263,7 @@ end
 # Compose markdown for thumbnail images linked to ICT with overlay of all
 # DSE regions.
 function linkedPage(urn, repo)
-     # Get DSE for relevant passages:
+    # Get DSE for relevant passages:
 	pagerows = eachrow(surfaceDse(repo, urn))
 	txturn = addpassage(proclus, ecloga[2])
 	textrows = filter(row -> urncontains(txturn, row.passage), pagerows)
@@ -299,16 +279,18 @@ function linkedPage(urn, repo)
 			grouped[trimmed] = [row.image]
 		end
 	end
-	
-	mdstrings = []
+
+	# Now cycle through all images, and build up link to  ICT
+	htmlstrings = []
 	for k in keys(grouped)
-		thumb = markdownImage(k, iiifsvc(), thumbht)
-		params = map(img -> "urn=" * img.urn * "&", grouped[k]) 
+		thumb = htmlImage(k, iiifsvc(); ht = thumbht)
+		params = map(img -> string("urn=", img.urn, "&"), grouped[k]) 
 		lnk = ict() * join(params,"") 
-		push!(mdstrings, "[$(thumb)]($(lnk))")
+		#push!(htmlstrings, "[$(thumb)]($(lnk))")
+		push!(htmlstrings, 	string("<a href=\"", lnk, "\">", thumb, "</a>"))
 		
 	end
-	join(mdstrings, " ")
+	join(htmlstrings, " ")
 	
 end
 
@@ -324,67 +306,26 @@ function readme(tup)
 	for txturn in textchoice
 		push!(psgs, formatpsg(txturn))
 	end
-	Markdown.parse("""## Page $(objectcomponent(pgurn)): *$(title)* 
-
-	See passages on page $(linkedPage(pgurn, editorsrepo()))
+	linkedimg = linkedPage(pgurn, editorsrepo())
+	
+	"""<h2 class="greek"> Page $(objectcomponent(pgurn)): <i>$(title)</i></h2> 
+	<figure>$(linkedimg)
+	<figcaption>See passages</br>highlighted on page</figcaption>
+	</figure>
+		
 	
 	$(join(psgs, "\n\n"))
 	
-	""")
+	"""
 end
 
-# ╔═╡ 71d7a180-5742-415c-9013-d3d1c0ca920c
-
-# Compose markdown for thumbnail images linked to ICT with overlay of all
-# DSE regions.
-function completenessView(urn, repo)
-     
-	# Group images with ROI into a dictionary keyed by image
-	# WITHOUT RoI.
-	grouped = Dict()
-	for row in eachrow(surfaceDse(repo, urn))
-		trimmed = CitableObject.dropsubref(row.image)
-		if haskey(grouped, trimmed)
-			push!(grouped[trimmed], row.image)
-		else
-			grouped[trimmed] = [row.image]
-		end
-	end
-
-	mdstrings = []
-	for k in keys(grouped)
-		thumb = markdownImage(k, iiifsvc(), thumbht)
-		params = map(img -> "urn=" * img.urn * "&", grouped[k]) 
-		lnk = ict() * join(params,"") 
-		push!(mdstrings, "[$(thumb)]($(lnk))")
-		
-	end
-	join(mdstrings, " ")
-
-end
-
-# ╔═╡ 59fbd3de-ea0e-4b96-800c-d5d8a7272922
-# Compose markdown for one row of display interleaving citable
-# text passage and indexed image.
-function accuracyView(row::DataFrameRow)
-	catalog = textcatalog_df(editorsrepo())
-    title 	= worktitle(catalog, row.passage)
-	citation = string("*", title, "*, **" * passagecomponent(row.passage)  * "** ")
-	tidy = EditorsRepo.baseurn(row.passage)
-	
-	txt = diplomatic_passagetext(editorsrepo(), tidy)
-	caption = passagecomponent(tidy)
-	
-	img = linkedMarkdownImage(ict(), row.image, iiifsvc(); ht=w, caption=caption)
-	
-	#urn
-	record = """$(citation) $(txt)
-
-$(img)
-
----
-"""
-	record
+# ╔═╡ 2bcf30fd-8c7b-4434-9fdf-2f611272f1f8
+if isnothing(ecloga)
+	md"Cypria does not exist in VA"
+elseif isempty(ecloga)
+	html"<span class=\"prompt\">(make a selection)</span>"
+else
+	HTML(readme(ecloga))
 end
 
 # ╔═╡ 6826f84a-542a-4de6-b862-79bc604ef559
@@ -469,19 +410,19 @@ PolytonicGreek = "72b824a7-2b4a-40fa-944c-ac4f345dc63a"
 Unicode = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
 
 [compat]
-CSV = "~0.9.10"
-CitableCorpus = "~0.7.3"
-CitableImage = "~0.2.3"
+CSV = "~0.9.11"
+CitableCorpus = "~0.8.0"
+CitableImage = "~0.3.0"
 CitableObject = "~0.8.4"
 CitablePhysicalText = "~0.3.3"
-CitableTeiReaders = "~0.7.2"
+CitableTeiReaders = "~0.7.3"
 CitableText = "~0.11.2"
 DataFrames = "~1.2.2"
-EditionBuilders = "~0.6.1"
-EditorsRepo = "~0.14.4"
+EditionBuilders = "~0.6.2"
+EditorsRepo = "~0.14.5"
 HTTP = "~0.9.16"
 ManuscriptOrthography = "~0.2.2"
-Orthography = "~0.15.0"
+Orthography = "~0.15.1"
 PlutoUI = "~0.7.19"
 PolytonicGreek = "~0.13.2"
 """
@@ -524,9 +465,9 @@ uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
 [[CSV]]
 deps = ["CodecZlib", "Dates", "FilePathsBase", "InlineStrings", "Mmap", "Parsers", "PooledArrays", "SentinelArrays", "Tables", "Unicode", "WeakRefStrings"]
-git-tree-sha1 = "74147e877531d7c172f70b492995bc2b5ca3a843"
+git-tree-sha1 = "49f14b6c56a2da47608fe30aed711b5882264d7a"
 uuid = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
-version = "0.9.10"
+version = "0.9.11"
 
 [[ChainRulesCore]]
 deps = ["Compat", "LinearAlgebra", "SparseArrays"]
@@ -542,21 +483,21 @@ version = "0.1.1"
 
 [[CitableBase]]
 deps = ["DocStringExtensions", "Documenter", "Test"]
-git-tree-sha1 = "f0615acff31e5aa57d6842c48d816e77537c5c9e"
+git-tree-sha1 = "e8f2177735ca2801bb0039ed4df964f64103331e"
 uuid = "d6f014bd-995c-41bd-9893-703339864534"
-version = "4.0.0"
+version = "5.0.0"
 
 [[CitableCorpus]]
 deps = ["CitableBase", "CitableText", "CiteEXchange", "DataFrames", "DocStringExtensions", "Documenter", "HTTP", "Test"]
-git-tree-sha1 = "8f71ee5e831c8517ee8338540f6c9bfa73466b89"
+git-tree-sha1 = "a1235ef764c5ac613ceffc0814302960d300ac7c"
 uuid = "cf5ac11a-93ef-4a1a-97a3-f6af101603b5"
-version = "0.7.3"
+version = "0.8.0"
 
 [[CitableImage]]
 deps = ["CitableBase", "CitableObject", "DocStringExtensions", "Documenter", "Test"]
-git-tree-sha1 = "fb7944e013ae43406d0a141dec723cfa2a13a533"
+git-tree-sha1 = "f36b7555da8571b2d2aef3b0875338d2befe6fd1"
 uuid = "17ccb2e5-db19-44b3-b354-4fd16d92c74e"
-version = "0.2.3"
+version = "0.3.0"
 
 [[CitableObject]]
 deps = ["CitableBase", "DocStringExtensions", "Documenter", "Test"]
@@ -566,9 +507,9 @@ version = "0.8.4"
 
 [[CitableParserBuilder]]
 deps = ["CSV", "CitableBase", "CitableCorpus", "CitableObject", "CitableText", "DataStructures", "DocStringExtensions", "Documenter", "HTTP", "Orthography", "Test", "TypedTables"]
-git-tree-sha1 = "ccfc55e0d8116c6cbba1ce137cae4ec95178b299"
+git-tree-sha1 = "4d980bc9e4cf3b8041b0f44f7e0f0fb84e7e3b0f"
 uuid = "c834cb9d-35b9-419a-8ff8-ecaeea9e2a2a"
-version = "0.20.2"
+version = "0.21.1"
 
 [[CitablePhysicalText]]
 deps = ["CSV", "CitableObject", "CitableText", "CiteEXchange", "DataFrames", "DocStringExtensions", "Documenter", "Test"]
@@ -578,9 +519,9 @@ version = "0.3.3"
 
 [[CitableTeiReaders]]
 deps = ["CitableCorpus", "CitableText", "DocStringExtensions", "Documenter", "EzXML", "Test"]
-git-tree-sha1 = "e45b57aa98382cdb5268541d2755b5b4cb1ec11d"
+git-tree-sha1 = "18945dd65385daa4e84bf5d0b1fb12238684ba91"
 uuid = "b4325aa9-906c-402e-9c3f-19ab8a88308e"
-version = "0.7.2"
+version = "0.7.3"
 
 [[CitableText]]
 deps = ["CitableBase", "DocStringExtensions", "Documenter", "Test"]
@@ -675,15 +616,15 @@ uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
 
 [[EditionBuilders]]
 deps = ["CitableCorpus", "CitableText", "DocStringExtensions", "Documenter", "EzXML", "Test"]
-git-tree-sha1 = "d6a8bf51be16b58ea3456ba47acb0b4397de984c"
+git-tree-sha1 = "de8173ba8eea4a9167f5a44bbbfa2a53a31e3420"
 uuid = "2fb66cca-c1f8-4a32-85dd-1a01a9e8cd8f"
-version = "0.6.1"
+version = "0.6.2"
 
 [[EditorsRepo]]
 deps = ["AtticGreek", "CSV", "CitableBase", "CitableCorpus", "CitableObject", "CitablePhysicalText", "CitableTeiReaders", "CitableText", "CiteEXchange", "DataFrames", "DocStringExtensions", "Documenter", "EditionBuilders", "Lycian", "ManuscriptOrthography", "Orthography", "PolytonicGreek", "Test"]
-git-tree-sha1 = "097b3c22a68f721b62575443f1ec7f76a3cde8be"
+git-tree-sha1 = "040d82a9f8e0717603c3811e22aef038706c9803"
 uuid = "3fa2051c-bcb6-4d65-8a68-41ff86d56437"
-version = "0.14.4"
+version = "0.14.5"
 
 [[EzXML]]
 deps = ["Printf", "XML2_jll"]
@@ -830,9 +771,9 @@ uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 
 [[Lycian]]
 deps = ["CSV", "CitableCorpus", "CitableObject", "CitableParserBuilder", "CitableText", "DataFrames", "DocStringExtensions", "Documenter", "HTTP", "Orthography", "Query", "Test"]
-git-tree-sha1 = "481f84e22e3db665f6ae98ce165024fc0ceab2c1"
+git-tree-sha1 = "aca19e3a573bc0604982ee2f74066671920e85af"
 uuid = "7c215dd3-d1b4-4517-b6c6-0123f1059a20"
-version = "0.5.2"
+version = "0.5.3"
 
 [[MacroTools]]
 deps = ["Markdown", "Random"]
@@ -881,10 +822,10 @@ uuid = "bac558e1-5e72-5ebc-8fee-abe8a469f55d"
 version = "1.4.1"
 
 [[Orthography]]
-deps = ["CitableBase", "CitableCorpus", "CitableText", "DocStringExtensions", "Documenter", "OrderedCollections", "StatsBase", "Test", "TypedTables", "Unicode"]
-git-tree-sha1 = "3cd7d46f0bae8dc2915f63d6a68073e65477824b"
+deps = ["CitableCorpus", "CitableText", "DocStringExtensions", "Documenter", "OrderedCollections", "StatsBase", "Test", "TypedTables", "Unicode"]
+git-tree-sha1 = "ab69ef19b53907704238b4113d9fb9a65c2d2774"
 uuid = "0b4c9448-09b0-4e78-95ea-3eb3328be36d"
-version = "0.15.0"
+version = "0.15.1"
 
 [[Parsers]]
 deps = ["Dates"]
@@ -1099,16 +1040,27 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╔═╡ Cell order:
 # ╟─766e600d-200c-4421-9a21-a8fa0aa6a4a7
 # ╟─17ebe116-0d7f-4051-a548-1573121a33c9
-# ╠═af7e73ca-b867-44c9-8d0d-473b8fe79264
+# ╟─617ce64a-d7b1-4f66-8bd0-f7a240a929a7
+# ╟─52778337-e472-4cdc-b0ae-e8062cf1ef06
 # ╟─15050388-e00b-408f-aca2-1e3a42051d6d
 # ╟─2bcf30fd-8c7b-4434-9fdf-2f611272f1f8
 # ╟─0094ef89-a479-4822-a47f-527545b34a0e
+# ╟─01b309e7-67e2-49c8-a67c-3b045fe2e629
+# ╟─a6463a01-6d3f-4ebe-bd53-6271584c1ced
+# ╟─00c739c4-3f9a-4a2d-92de-6fba03d5f08e
+# ╟─efb6dd1a-a87c-4aae-8cad-31f84e333512
 # ╟─7e400dbc-a86a-42d4-a872-864b237b0771
 # ╟─03dc3687-0e1a-4796-912d-3d8faf23f3c7
 # ╟─b77fa921-123d-460f-a599-11f1eb0ad598
+# ╟─3dd9b96b-8bca-4d5d-98dc-a54e00c75030
 # ╟─e099bf98-fbe3-4ad1-965a-3b94ca01d0e4
 # ╟─a43a0bc8-9648-4c9b-818f-a05de27df7ed
 # ╟─d86c76f8-12fe-44e4-ae90-de777597b650
+<<<<<<< HEAD
+# ╟─f58ab1c5-38a9-4145-a5e8-351d6996574b
+# ╟─86409da9-f4bf-49c3-a05c-7a5f0d97a917
+# ╟─d2ff2f48-70ea-4837-a29d-1884eacebd61
+=======
 # ╟─0956a361-56f2-404c-96a6-a97176192d98
 # ╟─f58ab1c5-38a9-4145-a5e8-351d6996574b
 # ╟─86409da9-f4bf-49c3-a05c-7a5f0d97a917
@@ -1124,6 +1076,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─59fbd3de-ea0e-4b96-800c-d5d8a7272922
 # ╟─1814e3b1-8711-4afd-9987-a41d85fd56d9
 # ╟─3dd9b96b-8bca-4d5d-98dc-a54e00c75030
+>>>>>>> 958a7a2e12142bbccc86e8d24dda77a7fc9eee6f
 # ╟─ec0f3c61-cf3b-4e4c-8419-176626a0888c
 # ╟─43734e4f-2efc-4f12-81ac-bce7bf7ada0a
 # ╟─080b744e-8f14-406d-bdd2-fbcd3c1ec753
