@@ -41,152 +41,20 @@ end
 # ╔═╡ 617ce64a-d7b1-4f66-8bd0-f7a240a929a7
  @bind loadem Button("Load/reload data")
 
+# ╔═╡ be7cddab-9888-401b-962e-8ee6207d1c34
+html"""
+<br/><br/><br/><br/>
+<hr/><hr/>
+<p class="advice">You can ignore the rest of this notebook unless you're interested in how it works.</p>
+<hr/><hr/>
+"""
+
+# ╔═╡ 3fe231b9-df28-4120-8961-679dcd45fadd
+md">CSS"
+
 # ╔═╡ 0094ef89-a479-4822-a47f-527545b34a0e
-md"""
----
-
-> Settings and user-interface elements
+md"""> Settings and user-interface elements
 """
-
-# ╔═╡ 01b309e7-67e2-49c8-a67c-3b045fe2e629
-fontmenu = [
-	"Fira Sans",
-	"Alegreya Sans SC",
-	"Arimo",
-	"Inter",
-	"M PLUS 1",
-	"Roboto"
-]
-
-# ╔═╡ 52778337-e472-4cdc-b0ae-e8062cf1ef06
-md"""Font for Greek display: $(@bind font Select(fontmenu, default="M PLUS 1"))"""
-
-# ╔═╡ efb6dd1a-a87c-4aae-8cad-31f84e333512
-greekcss = """
-<style>
-	@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC&family=Arimo&family=Fira+Sans:ital@0;1&family=Inter&family=M+PLUS+1p&family=Roboto:ital@0;1&display=swap');
-	.greek {
-		font-family: '$(font)', sans-serif;
-	}
-
-figure {
-    display: inline-block;
-    margin: 20px; /* adjust as needed */
-	
-}
-figure img {
-    vertical-align: top;
-	margin-left: 20px;
-}
-figure figcaption {
-    text-align: center;
-}
-
-
-
-</style>
-"""
-
-# ╔═╡ a6463a01-6d3f-4ebe-bd53-6271584c1ced
-greekcss
-
-# ╔═╡ 00c739c4-3f9a-4a2d-92de-6fba03d5f08e
-parsedcss = HTML(greekcss)
-
-# ╔═╡ 7e400dbc-a86a-42d4-a872-864b237b0771
-vapages = Cite2Urn("urn:cite2:hmt:msA.v1:")
-
-# ╔═╡ 03dc3687-0e1a-4796-912d-3d8faf23f3c7
-proclus = CtsUrn("urn:cts:greekLit:tlg4036.tlg023.va:")
-
-# ╔═╡ b77fa921-123d-460f-a599-11f1eb0ad598
-thumbht = 100
-
-# ╔═╡ 3dd9b96b-8bca-4d5d-98dc-a54e00c75030
-css = 
-	"""
-<style>
-	@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC&family=Arimo&family=Fira+Sans:ital@0;1&family=Inter&family=M+PLUS+1p&display=swap');
-	.greek {
-		font-family: '$(font)', sans-serif;
-	}
-
-	
-.prompt {
-	color: silver;
-}
-.splash {
-	background-color: #f0f7fb;
-}
-.danger {
-     background-color: #fbf0f0;
-     border-left: solid 4px #db3434;
-     line-height: 18px;
-     overflow: hidden;
-     padding: 15px 60px;
-   font-style: normal;
-	  }
-.warn {
-     background-color: 	#ffeeab;
-     border-left: solid 4px  black;
-     line-height: 18px;
-     overflow: hidden;
-     padding: 15px 60px;
-   font-style: normal;
-  }
-
-  .danger h1 {
-	color: red;
-	}
-
- .invalidtoken {
-	text-decoration-line: underline;
-  	text-decoration-style: wavy;
-  	text-decoration-color: red;
-}
- .invalid {
-	color: red;
-	border: solid;
-}
- .center {
-text-align: center;
-}
-.highlight {
-  background: yellow;  
-}
-.urn {
-	color: silver;
-}
-  .note { -moz-border-radius: 6px;
-     -webkit-border-radius: 6px;
-     background-color: #eee;
-     background-image: url(../Images/icons/Pencil-48.png);
-     background-position: 9px 0px;
-     background-repeat: no-repeat;
-     border: solid 1px black;
-     border-radius: 6px;
-     line-height: 18px;
-     overflow: hidden;
-     padding: 15px 60px;
-    font-style: italic;
- }
-
-
-.instructions {
-     background-color: #f0f7fb;
-     border-left: solid 4px  #3498db;
-     line-height: 18px;
-     overflow: hidden;
-     padding: 15px 60px;
-   font-style: normal;
-  }
-
-
-
-</style>
-"""
-
-
 
 # ╔═╡ e099bf98-fbe3-4ad1-965a-3b94ca01d0e4
 menu = [
@@ -221,13 +89,68 @@ titles = Dict(
 )
 		
 
+# ╔═╡ 01b309e7-67e2-49c8-a67c-3b045fe2e629
+fontmenu = [
+	"Fira Sans",
+	"Alegreya Sans SC",
+	"Arimo",
+	"Inter",
+	"M PLUS 1",
+	"Roboto"
+]
+
+# ╔═╡ 52778337-e472-4cdc-b0ae-e8062cf1ef06
+md"""Font for Greek display: $(@bind font Select(fontmenu, default="M PLUS 1"))"""
+
+# ╔═╡ efb6dd1a-a87c-4aae-8cad-31f84e333512
+greekcss = """
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC&family=Arimo&family=Fira+Sans:ital@0;1&family=Inter&family=M+PLUS+1p&family=Roboto:ital@0;1&display=swap');
+	.greek {
+		font-family: '$(font)', sans-serif;
+	}
+
+figure {
+    display: inline-block;
+    margin: 20px; /* adjust as needed */
+	
+}
+figure img {
+    vertical-align: top;
+	margin-left: 20px;
+}
+figure figcaption {
+    text-align: center;
+	font-style: italic;
+}
+
+.advice {
+	text-align: center;
+	color: silver;
+}
+
+</style>
+"""
+
+# ╔═╡ 00c739c4-3f9a-4a2d-92de-6fba03d5f08e
+parsedcss = HTML(greekcss)
+
+# ╔═╡ 7e400dbc-a86a-42d4-a872-864b237b0771
+vapages = Cite2Urn("urn:cite2:hmt:msA.v1:")
+
+# ╔═╡ 03dc3687-0e1a-4796-912d-3d8faf23f3c7
+proclus = CtsUrn("urn:cts:greekLit:tlg4036.tlg023.va:")
+
+# ╔═╡ b77fa921-123d-460f-a599-11f1eb0ad598
+thumbht = 100
+
 # ╔═╡ d86c76f8-12fe-44e4-ae90-de777597b650
 md"> Display functions"
 
-# ╔═╡ ec0f3c61-cf3b-4e4c-8419-176626a0888c
+# ╔═╡ 26a10ae9-446b-444e-bfda-772290129124
 md"> Repository and image services"
 
-# ╔═╡ 43734e4f-2efc-4f12-81ac-bce7bf7ada0a
+# ╔═╡ 1dbfc4bc-2cb0-43d0-8742-0ce5520845e6
 # Create EditingRepository for this notebook's repository
 # Since the notebook is in the `notebooks` subdirectory of the repository,
 # we can just use the parent directory (dirname() in julia) for the
@@ -236,7 +159,8 @@ function editorsrepo()
     repository(dirname(pwd()))
 end
 
-# ╔═╡ 86409da9-f4bf-49c3-a05c-7a5f0d97a917
+# ╔═╡ 4f145196-0723-4e2b-b8af-466649f5e6a9
+# Format HTML <p> for a single passage.
 function formatpsg(psgu) 
 	reading = diplomatic_passagetext(editorsrepo(), psgu)
 	opening = "<p class=\"greek\">"
@@ -245,21 +169,18 @@ function formatpsg(psgu)
 	join([opening, hdg, reading, closing], " ")
 end
 
-# ╔═╡ 080b744e-8f14-406d-bdd2-fbcd3c1ec753
-# Base URL for an ImageCitationTool
+# ╔═╡ 5369d042-93a4-4b78-8bb2-46967d136092
 function ict()
 	"http://www.homermultitext.org/ict2/?"
 end
 
-# ╔═╡ 806b3733-6c06-4956-8b86-aa096f060ac6
-# API to work with an IIIF image service
+# ╔═╡ 6b7906d2-54db-40ff-ad62-76ea839483bd
 function iiifsvc()
 	IIIFservice("http://www.homermultitext.org/iipsrv",
 	"/project/homer/pyramidal/deepzoom")
 end
 
-# ╔═╡ f58ab1c5-38a9-4145-a5e8-351d6996574b
-
+# ╔═╡ 5157fa58-9c83-464d-acfb-8e9460420955
 # Compose markdown for thumbnail images linked to ICT with overlay of all
 # DSE regions.
 function linkedPage(urn, repo)
@@ -294,7 +215,7 @@ function linkedPage(urn, repo)
 	
 end
 
-# ╔═╡ d2ff2f48-70ea-4837-a29d-1884eacebd61
+# ╔═╡ 17e1e1e8-8d23-4951-bd2d-657b6f3e50ce
 function readme(tup)
 	txturn = addpassage(proclus, tup[2])
 	pgurn = addobject(vapages, tup[1])
@@ -328,10 +249,10 @@ else
 	HTML(readme(ecloga))
 end
 
-# ╔═╡ 6826f84a-542a-4de6-b862-79bc604ef559
+# ╔═╡ 542976d1-24e6-48ea-9d2b-3b0b21562ade
 md"> Substitute Pkg.TOML reader"
 
-# ╔═╡ 70384afe-4853-4ce1-9d02-74946e396b97
+# ╔═╡ b6eec8b0-0c92-49f2-bb27-7b50d45dc9fd
 # Read MID.toml into a dictionary, since using the normal Pkg TOML parser
 # would turn off Pluto package management!
 function tomldict(f)
@@ -350,7 +271,7 @@ function tomldict(f)
 	dict
 end
 
-# ╔═╡ a4d4970f-5f26-49de-85d0-44352ef0f2e4
+# ╔═╡ 5861290e-60b1-48e8-b39f-08f4d10095c5
 middict = begin
 	loadem
 	tomldict(joinpath(pwd(), "MID.toml"))
@@ -1044,45 +965,27 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─52778337-e472-4cdc-b0ae-e8062cf1ef06
 # ╟─15050388-e00b-408f-aca2-1e3a42051d6d
 # ╟─2bcf30fd-8c7b-4434-9fdf-2f611272f1f8
-# ╟─0094ef89-a479-4822-a47f-527545b34a0e
-# ╟─01b309e7-67e2-49c8-a67c-3b045fe2e629
-# ╟─a6463a01-6d3f-4ebe-bd53-6271584c1ced
+# ╟─be7cddab-9888-401b-962e-8ee6207d1c34
+# ╟─3fe231b9-df28-4120-8961-679dcd45fadd
 # ╟─00c739c4-3f9a-4a2d-92de-6fba03d5f08e
 # ╟─efb6dd1a-a87c-4aae-8cad-31f84e333512
+# ╟─0094ef89-a479-4822-a47f-527545b34a0e
+# ╟─e099bf98-fbe3-4ad1-965a-3b94ca01d0e4
+# ╟─a43a0bc8-9648-4c9b-818f-a05de27df7ed
+# ╟─01b309e7-67e2-49c8-a67c-3b045fe2e629
 # ╟─7e400dbc-a86a-42d4-a872-864b237b0771
 # ╟─03dc3687-0e1a-4796-912d-3d8faf23f3c7
 # ╟─b77fa921-123d-460f-a599-11f1eb0ad598
-# ╟─3dd9b96b-8bca-4d5d-98dc-a54e00c75030
-# ╟─e099bf98-fbe3-4ad1-965a-3b94ca01d0e4
-# ╟─a43a0bc8-9648-4c9b-818f-a05de27df7ed
 # ╟─d86c76f8-12fe-44e4-ae90-de777597b650
-<<<<<<< HEAD
-# ╟─f58ab1c5-38a9-4145-a5e8-351d6996574b
-# ╟─86409da9-f4bf-49c3-a05c-7a5f0d97a917
-# ╟─d2ff2f48-70ea-4837-a29d-1884eacebd61
-=======
-# ╟─0956a361-56f2-404c-96a6-a97176192d98
-# ╟─f58ab1c5-38a9-4145-a5e8-351d6996574b
-# ╟─86409da9-f4bf-49c3-a05c-7a5f0d97a917
-# ╟─d2ff2f48-70ea-4837-a29d-1884eacebd61
-# ╟─617ce64a-d7b1-4f66-8bd0-f7a240a929a7
-# ╟─ee2f04c1-42bb-46bb-a381-b12138e550ee
-# ╟─8d407e7a-1201-4dd3-bddd-368362037205
-# ╟─ad541819-7d4f-4812-8476-8a307c5c1f87
-# ╟─ea1b6e21-7625-4f8f-a345-8e96449c0757
-# ╟─fd401bd7-38e5-44b5-8131-dbe5eb4fe41b
-# ╟─5cba9a9c-74cc-4363-a1ff-026b7b3999ea
-# ╟─71d7a180-5742-415c-9013-d3d1c0ca920c
-# ╟─59fbd3de-ea0e-4b96-800c-d5d8a7272922
-# ╟─1814e3b1-8711-4afd-9987-a41d85fd56d9
-# ╟─3dd9b96b-8bca-4d5d-98dc-a54e00c75030
->>>>>>> 958a7a2e12142bbccc86e8d24dda77a7fc9eee6f
-# ╟─ec0f3c61-cf3b-4e4c-8419-176626a0888c
-# ╟─43734e4f-2efc-4f12-81ac-bce7bf7ada0a
-# ╟─080b744e-8f14-406d-bdd2-fbcd3c1ec753
-# ╟─806b3733-6c06-4956-8b86-aa096f060ac6
-# ╟─6826f84a-542a-4de6-b862-79bc604ef559
-# ╟─a4d4970f-5f26-49de-85d0-44352ef0f2e4
-# ╟─70384afe-4853-4ce1-9d02-74946e396b97
+# ╟─4f145196-0723-4e2b-b8af-466649f5e6a9
+# ╟─5157fa58-9c83-464d-acfb-8e9460420955
+# ╟─17e1e1e8-8d23-4951-bd2d-657b6f3e50ce
+# ╟─26a10ae9-446b-444e-bfda-772290129124
+# ╟─1dbfc4bc-2cb0-43d0-8742-0ce5520845e6
+# ╟─5369d042-93a4-4b78-8bb2-46967d136092
+# ╟─6b7906d2-54db-40ff-ad62-76ea839483bd
+# ╟─542976d1-24e6-48ea-9d2b-3b0b21562ade
+# ╟─b6eec8b0-0c92-49f2-bb27-7b50d45dc9fd
+# ╟─5861290e-60b1-48e8-b39f-08f4d10095c5
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
