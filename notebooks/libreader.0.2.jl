@@ -68,8 +68,21 @@ fromcex(cexstring, CitableTextCorpus, delimiter = "#")
 
 # ╔═╡ 830fb114-585b-41f9-bca0-966243544cf2
 md"""
-## Read texts from local XML source
+## Read texts from XML source
 """
+
+# ╔═╡ 1f64777d-d865-4b18-aa98-aa1c6bdc4f6e
+proclusurl = "https://raw.githubusercontent.com/hmteditors/va-other/main/editions/proclus.xml"
+
+# ╔═╡ 5e583ca4-1cd8-4083-98ba-5644cca67a87
+proclusxml = HTTP.get(proclusurl).body |> String
+
+# ╔═╡ cf95bb5f-fed2-46b4-9981-77511d3679ed
+proclusurn = CtsUrn("urn:cts:greekLit:tlg4036.tlg023.va:")
+
+# ╔═╡ 4ec5f570-2332-42b7-976c-6d1e1f7c55ee
+proclus = divAbReader(proclusxml, proclusurn)
+
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -570,5 +583,9 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─7d22e612-8637-4e1b-8d4d-f9e3f579058d
 # ╠═a7c4cbe9-d605-4278-a33b-1718e3d8a4ad
 # ╟─830fb114-585b-41f9-bca0-966243544cf2
+# ╟─1f64777d-d865-4b18-aa98-aa1c6bdc4f6e
+# ╟─5e583ca4-1cd8-4083-98ba-5644cca67a87
+# ╟─cf95bb5f-fed2-46b4-9981-77511d3679ed
+# ╟─4ec5f570-2332-42b7-976c-6d1e1f7c55ee
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
