@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.17.7
+# v0.17.5
 
 using Markdown
 using InteractiveUtils
@@ -80,6 +80,15 @@ md"""
 # ╔═╡ b30b10ce-3f72-44fc-8b28-2643aab2213c
 md""" ### Verification: orthography
 
+"""
+
+# ╔═╡ 9ddd7641-257b-408f-9422-bf7fd7fe5ceb
+html"""
+
+<br/><br/><br/><br/><br/><br/>
+<hr/>
+<br/>
+Configuration and formatting you can ignore unless you're curious about how it works.
 """
 
 # ╔═╡ e0a05b0a-273d-4246-b71c-9a193784245f
@@ -272,7 +281,7 @@ CitablePhysicalText = "~0.6.3"
 CitableTeiReaders = "~0.8.4"
 CitableText = "~0.14.3"
 EditionBuilders = "~0.7.0"
-EditorsRepo = "~0.15.0"
+EditorsRepo = "~0.15.1"
 Lycian = "~0.5.5"
 ManuscriptOrthography = "~0.2.3"
 Orthography = "~0.16.3"
@@ -488,9 +497,9 @@ version = "0.7.0"
 
 [[deps.EditorsRepo]]
 deps = ["AtticGreek", "CSV", "CitableBase", "CitableCorpus", "CitableImage", "CitableObject", "CitablePhysicalText", "CitableTeiReaders", "CitableText", "CiteEXchange", "DocStringExtensions", "Documenter", "EditionBuilders", "Lycian", "ManuscriptOrthography", "Orthography", "PolytonicGreek", "Tables", "Test", "TypedTables"]
-git-tree-sha1 = "eb9082b726154ca3d35d82df31e4641b89cab58f"
+git-tree-sha1 = "b944acc38ae39135308bcca0cf41a1b2688237db"
 uuid = "3fa2051c-bcb6-4d65-8a68-41ff86d56437"
-version = "0.15.0"
+version = "0.15.1"
 
 [[deps.EzXML]]
 deps = ["Printf", "XML2_jll"]
@@ -931,6 +940,7 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─29209027-16f9-4e6c-a91a-c16ef34f77fb
 # ╟─b30b10ce-3f72-44fc-8b28-2643aab2213c
 # ╟─f6ade70f-fd4d-4dff-a64b-6fcdb4fa5255
+# ╟─9ddd7641-257b-408f-9422-bf7fd7fe5ceb
 # ╟─e0a05b0a-273d-4246-b71c-9a193784245f
 # ╟─be7937f0-134d-4072-a2b8-804eedbefb98
 # ╟─801be716-b830-4ab8-b6f1-17fece56abc0
