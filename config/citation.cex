@@ -1,2 +1,2 @@
 urn|file|converter|diplomatic|normalized|orthography
-urn:cts:greekLit:tlg4036.tlg023.va:|proclus.xml|divAbReader|MidDiplomaticBuilder("Diplomatic edition builder","dipl")|MidNormalizedBuilder("Normalized edition builder","normed")|msGreek()
+urn:cts:greekLit:tlg4036.tlg023.va:|proclus.xml|TEIDivAb|MidDiplomaticBuilder("Diplomatic edition builder","dipl")|MidNormalizedBuilder("Normalized edition builder","normed")|msGreek()
